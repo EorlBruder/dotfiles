@@ -1,0 +1,51 @@
+# Fonts
+powerline-fonts
+ttf-inconsolata
+ttf-emojione
+ttf-roboto
+
+# WM
+i3
+polybar
+compton
+rofi
+redshift
+termite
+python-pywal
+oomox
+zsh
+tmux
+feh 
+twmn-git
+xdotool
+arandr
+gnome-keyring
+python-keyring
+playerctl
+autorrandr
+cronie
+rofi-greenclip
+
+# Change theme for GTK and QT
+lxappearance
+gtk-chtheme
+qt5ct
+
+# Utilities
+todotxt
+firefox
+neovim 
+thunderbird
+khal
+vdirsyncer
+keepmenu
+keepassxc
+openssh
+habitctl
+punch
+scrot
+seahorse
+stow
+
+# vim deps
+python-neovim

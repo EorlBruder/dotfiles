@@ -1,0 +1,23 @@
+[default]
+highlight_event_days = True
+timedelta = 7d
+default_calendar = privat
+
+[calendars]
+
+[[privat]]
+path = ~/.calendars/privat
+color = light cyan
+
+[[birthdays]]
+path = ~/.calendars/contact_birthdays
+color = dark red
+
+[locale]
+timeformat = %H:%M
+dateformat = %d-%m-%Y
+longdateformat = %d-%m-%Y
+datetimeformat = %d-%m-%Y %H:%M
+longdatetimeformat = %d-%m-%Y %H:%M
+default_timezone = Europe/Berlin
+weeknumbers = left
