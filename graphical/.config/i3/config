@@ -216,7 +216,7 @@ client.background       $bg
 # Startup
 # WM
 exec wal -i ~/sync/permanent/wallpaper.jpg -n
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id ~/.bin/launch-polybar.sh
 exec --no-startup-id feh --bg-scale ~/sync/permanent/wallpaper.jpg
 exec_always --no-startup-id "killall -q compton; compton --backend glx"
 exec --no-startup-id redshift-gtk
