@@ -2,7 +2,7 @@
 " show line numbers
 set number
 " Tab == 2 spaces
-set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
+set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 """ Keymap
 nnoremap <C-Space> <C-W>
@@ -30,6 +30,8 @@ Plug 'tpope/vim-commentary'
 Plug 'scrooloose/syntastic'
 " Multiple Cursors
 Plug 'terryma/vim-multiple-cursors'
+" Plantuml syntax
+Plug 'aklt/plantuml-syntax'
 call plug#end()
 " use wal-colorscheme 
 colorscheme wal

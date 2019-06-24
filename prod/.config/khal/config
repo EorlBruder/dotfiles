@@ -21,3 +21,7 @@ datetimeformat = %d-%m-%Y %H:%M
 longdatetimeformat = %d-%m-%Y %H:%M
 default_timezone = Europe/Berlin
 weeknumbers = left
+
+[view]
+agenda_event_format = {calendar-color}{cancelled}{start-end-time-style} {title}{repeat-symbol} :: {organizer}{reset}
+event_format = {calendar-color}{cancelled}{start-end-time-style} {title}{repeat-symbol} :: {organizer}{reset}
