@@ -87,5 +87,5 @@ help() {
   echo "    help - Prints this message"
 }
 
-source ~/.bin/alias.zsh
+source ~/.config/zsh/alias.zsh
 main $@
