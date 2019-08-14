@@ -26,16 +26,6 @@ alias gc="git ci"
 alias gps="git ps"
 alias gpl="git pl"
 alias gs="git st"
-function gitall() {
-    ga
-    if [ -n "$1" ]
-    then
-        gc "$1"
-    else
-        gc update
-    fi
-    gps
-}
 
 alias grep='grep --color=auto'
 alias more='less'
@@ -54,9 +44,7 @@ alias lm='la | more'
 alias packer='PKGEXT=.tar SRCEXT=.src packer-aur'
 alias makepkg='PKGEXT=.tar SRCEXT=.src makepkg'
 
-function proxy() {
-    ssh $1 -D 9999 -N exit
-}
+alias fzt='rg --no-heading . | fzf --delimiter=: --nth=2..'
 
 alias ssh-pw='ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no'
 
@@ -66,5 +54,20 @@ alias reload_alias="source ~/.config/zsh/alias.zsh"
 # Functions
 # Find in all files pattern $1
 fif() { ff * -exec grep -nHr "$1" {} \; ; }
+
+function proxy() {
+    ssh $1 -D 9999 -N exit
+}
+
+function gitall() {
+    ga
+    if [ -n "$1" ]
+    then
+        gc "$1"
+    else
+        gc update
+    fi
+    gps
+}
 
 source ~/.config/zsh/local/alias-*.zsh
