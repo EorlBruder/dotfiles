@@ -12,13 +12,16 @@ i3-msg "workspace 2, move workspace to output $FIRST_DISPLAY"
 i3-msg "workspace 3; exec thunderbird"
 i3-msg "workspace 3, move workspace to output $SECOND_DISPLAY" 
 
-# Workspace 4 (Chat)
+# Workspace 4 (Chat - 1)
 i3-msg "workspace 4; append_layout ~/.config/i3/workspace_4.json"
 (exec discord &)
-(exec riot-desktop &)
 (exec telegram-desktop &)
-(exec dino &)
+(exec signal-desktop &)
 i3-msg "workspace 4, move workspace to output $SECOND_DISPLAY"
+
+# Workspace 5 (Chat - 2)
+i3-mesg "workspace 5; exec rambox"
+i3-msg "workspace 5, move workspace to output $SECOND_DISPLAY"
 
 # Open main Workspace
 i3-msg "workspace 1"

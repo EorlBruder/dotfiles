@@ -5,31 +5,13 @@
     "layout": "splitv",
     "nodes": [
         {
-            "floating": "auto_off",
-            "percent": 0.5,
-            "type": "con",
-            "nodes": [
-                {
-                    "floating": "auto_off",
-                    "percent": 1,
-                    "name": "Riot",
-                    "swallows": [
-                       {
-                        "class": "^Riot$"
-                       }
-                    ],
-                    "type": "con"
-                }
-            ]
-        },
-        {
           "floating": "auto_off",
-          "name": "Dino",
-          "percent": 0.5,
+          "name": "Telegram",
+          "percent": 1,
           "type": "con",
           "swallows": [
             {
-              "class": "^Dino$"
+              "class": "^TelegramDesktop$"
             }
           ],
           "type": "con"
@@ -45,12 +27,12 @@
     "nodes": [
         {
             "floating": "auto_off",
-            "name": "Telegram",
+            "name": "Signal",
             "percent": 0.5,
             "type": "con",
             "swallows": [
                {
-                "class": "^TelegramDesktop$"
+                "class": "^Signal$"
                } 
             ]
         },
