@@ -160,7 +160,7 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 # lock screen
-bindsym $mod+space exec i3lock -tei ~/sync/permanent/wallpaper.png
+bindsym $mod+space exec i3lock -tei ~/sync/permanent/pictures/wallpaper.png
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -215,9 +215,9 @@ client.background       $bg
 
 # Startup
 # WM
-exec wal -i ~/sync/permanent/wallpaper.jpg -n
+exec wal -i ~/sync/permanent/pictures/wallpaper.jpg -n
 exec_always --no-startup-id ~/.bin/launch-polybar.sh
-exec --no-startup-id feh --bg-scale ~/sync/permanent/wallpaper.jpg
+exec --no-startup-id feh --bg-scale ~/sync/permanent/pictures/wallpaper.jpg
 exec_always --no-startup-id "killall -q compton; compton --backend glx"
 exec --no-startup-id redshift-gtk
 exec --no-startup-id twmnd
