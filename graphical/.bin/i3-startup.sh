@@ -20,7 +20,7 @@ i3-msg "workspace 4; append_layout ~/.config/i3/workspace_4.json"
 i3-msg "workspace 4, move workspace to output $SECOND_DISPLAY"
 
 # Workspace 5 (Chat - 2)
-i3-mesg "workspace 5; exec rambox"
+i3-msg "workspace 5; exec rambox"
 i3-msg "workspace 5, move workspace to output $SECOND_DISPLAY"
 
 # Open main Workspace
