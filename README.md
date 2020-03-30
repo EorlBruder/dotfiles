@@ -13,3 +13,6 @@ the private submodule currently contains the following configs:
 - .config/Nextcloud/sync-exclude.lst
 - .config/vdirsyncer/config
 All of them contain either private email-addresses, usernames or server-addresses
+
+## Set keyboard layout
+`localectl --no-convert set-x11-keymap de,ru pc105 grp:rctrl_rshift_toggle`
