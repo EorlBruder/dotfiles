@@ -221,7 +221,7 @@ exec --no-startup-id feh --bg-scale ~/sync/permanent/pictures/wallpaper.jpg
 exec_always --no-startup-id "killall -q compton; compton --backend glx"
 exec --no-startup-id redshift-gtk
 exec --no-startup-id twmnd
-exec setxkbmap de
+exec setxkbmap -model pc105 de,pt,ru -option grp:rctrl_rshift_toggle 
 exec nextcloud --confdir ~/.config/Nextcloud
 exec --no-startup-id greenclip daemon
 
