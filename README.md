@@ -15,4 +15,4 @@ the private submodule currently contains the following configs:
 All of them contain either private email-addresses, usernames or server-addresses
 
 ## Set keyboard layout
-`localectl --no-convert set-x11-keymap de,ru pc105 grp:rctrl_rshift_toggle`
+`localectl --no-convert set-x11-keymap de,pt,ru pc105 grp:rctrl_rshift_toggle`
