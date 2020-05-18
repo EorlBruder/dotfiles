@@ -15,7 +15,10 @@ alias mmdc='~/.node_modules/bin/mmdc -p ~/.config/node/puppeteer-config.json'
 alias decktape_presentation='~/.node_modules/bin/decktape --no-sandbox remark http://localhost:8080 slides.pdf'
 alias npm_home='npm -g --prefix ~/.node_modules' 
 alias preview-pipe="pandoc > /tmp/preview.html; open /tmp/preview.html"
+alias preview-pipe-cli="pandoc > /tmp/preview.html; lynx /tmp/preview.html"
 preview() {                                                            
   cat $1 | preview-pipe                                                
 }                                                                      
-
+preview-cli() {
+  cat $1 | preview-pipe-cli
+}
