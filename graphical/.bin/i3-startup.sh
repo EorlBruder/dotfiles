@@ -19,9 +19,5 @@ i3-msg "workspace 4; append_layout ~/.config/i3/workspace_4.json"
 (exec signal-desktop &)
 i3-msg "workspace 4, move workspace to output $SECOND_DISPLAY"
 
-# Workspace 5 (Chat - 2)
-i3-msg "workspace 5; exec rambox"
-i3-msg "workspace 5, move workspace to output $SECOND_DISPLAY"
-
 # Open main Workspace
 i3-msg "workspace 1"
