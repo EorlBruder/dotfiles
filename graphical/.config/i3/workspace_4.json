@@ -28,25 +28,13 @@
         {
             "floating": "auto_off",
             "name": "Signal",
-            "percent": 0.5,
+            "percent": 1,
             "type": "con",
             "swallows": [
                {
                 "class": "^Signal$"
                } 
             ]
-        },
-        {
-          "floating": "auto_off",
-          "name": "Discord",
-          "percent": 0.5,
-          "type": "con",
-          "swallows": [
-            {
-              "class": "^discord$"
-            }
-          ],
-          "type": "con"
         }
     ]
 }
