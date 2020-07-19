@@ -16,6 +16,7 @@ i3-msg "workspace 3, move workspace to output $SECOND_DISPLAY"
 i3-msg "workspace 4; append_layout ~/.config/i3/workspace_4.json"
 (exec telegram-desktop &)
 (exec signal-desktop &)
+(exec element-desktop &)
 i3-msg "workspace 4, move workspace to output $SECOND_DISPLAY"
 
 # Open main Workspace
