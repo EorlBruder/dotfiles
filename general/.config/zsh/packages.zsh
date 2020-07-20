@@ -20,3 +20,5 @@ zplug "junegunn/fzf-bin", \
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 zplug "zsh-users/zsh-autosuggestions"
+
+zplug "arzzen/calc.plugin.zsh"
