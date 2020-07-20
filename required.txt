@@ -3,6 +3,7 @@ powerline-fonts
 ttf-inconsolata
 ttf-emojione
 ttf-roboto
+siji-git
 
 # WM
 i3
@@ -25,6 +26,7 @@ playerctl
 autorrandr
 cronie
 rofi-greenclip
+dunst
 
 # Change theme for GTK and QT
 lxappearance
