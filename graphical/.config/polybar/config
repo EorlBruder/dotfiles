@@ -16,6 +16,7 @@
 ;
 ;==========================================================
 
+
 [colors]
 background = ${xrdb:background:#222}
 background-alt = ${xrdb:color2:#222}
@@ -24,6 +25,15 @@ foreground-alt = ${xrdb:color8:#222}
 primary = ${xrdb:color1:#222}
 secondary = ${xrdb:color2:#222}
 alert = ${xrdb:color3:#222}
+
+
+[bar/dummy]
+monitor = ${env:FIRST_DISPLAY}
+background = #00000000
+width = 100%
+height = 40
+modules-center = blank
+font-0 = Roboto:size=11:weight=bold;2
 
 [bar/main]
 ;Get Monitors with: xrandr -q | grep " connected" | cut -d ' ' -f1
@@ -72,7 +82,7 @@ tray-detached = true
 ;wm-restack = bspwm
 wm-restack = i3
 
-;override-redirect = true
+override-redirect = true
 
 ;scroll-up = bspwm-desknext
 ;scroll-down = bspwm-deskprev
@@ -82,6 +92,10 @@ wm-restack = i3
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[module/blank]
+type = custom/text
+content = ""
 
 [module/xwindow]
 type = internal/xwindow

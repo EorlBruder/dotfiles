@@ -8,7 +8,7 @@ siji-git
 # WM
 i3
 polybar
-compton
+picom
 rofi
 redshift
 termite
