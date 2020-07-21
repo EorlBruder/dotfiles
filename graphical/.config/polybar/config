@@ -31,7 +31,7 @@ alert = ${xrdb:color3:#222}
 monitor = ${env:FIRST_DISPLAY}
 background = #00000000
 width = 100%
-height = 40
+height = 37
 modules-center = blank
 font-0 = Roboto:size=11:weight=bold;2
 
