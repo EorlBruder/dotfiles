@@ -198,7 +198,8 @@ bindsym $mod+r mode "resize"
 
 # Gaps
 gaps inner 5
-gaps outer 5
+gaps outer 0
+gaps top 0 
 
 # Colors
 # Set colors from Xresources
