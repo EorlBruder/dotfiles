@@ -58,7 +58,7 @@ font-2 = DejaVuSans:pixelsize=10;1
 font-3 = Siji:pixelsize=14
 
 # Modules
-modules-left = i3 memory cpu temperature wlan eth 
+modules-left = i3 memory cpu temperature wlan eth enp60s0u1u4 enp60s0u2u4 
 modules-center = date
 modules-right = xbacklight pulseaudio xkeyboard battery powermenu
 
@@ -267,6 +267,40 @@ format-disconnected =
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
+
+[module/enp60s0u1u4]
+type = internal/network
+interface = enp60s0u1u4
+interval = 3.0
+
+format-connected-underline = #55aa55
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+[module/enp60s0u2u4]
+type = internal/network
+interface = enp60s0u2u4
+interval = 3.0
+
+format-connected-underline = #55aa55
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+
 [module/date]
 type = internal/date
 interval = 5
@@ -418,6 +452,28 @@ menu-2-0 = power off
 menu-2-0-exec = poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
+
+
+[module/music-info]
+type = custom/script
+exec = echo "$(playerctl metadata xesam:artist) | $(playerctl metadata xesam:title)"
+interval = 1
+format-prefix = "M"
+
+[module/music-prev]
+type = custom/script
+exec = echo " P"
+click-left = playerctl previous
+
+[module/music-pause]
+type = custom/script
+exec = echo ""
+click-left = playerctl play-pause
+
+[module/music-next]
+type = custom/script
+exec = echo "N"
+click-left = playerctl next
 
 [settings]
 screenchange-reload = true
