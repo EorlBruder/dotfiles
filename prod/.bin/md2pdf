@@ -1,6 +1,9 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
+# TODO Add quick-draft-mode
+#   - If quick-draft-mode is set, it will generate the document without links and images. Watermark and footer will be set to draft
+#   - If normal-draft-mode is set only watermark and footer will be set to draft
 # TODO Write completion definition
 # TODO Allow multiple input files
 # TODO Add option for different themes/templates
