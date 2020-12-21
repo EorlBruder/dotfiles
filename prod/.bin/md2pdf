@@ -2,8 +2,6 @@
 # Licensed under AGPL 3.0 by EorlBruder
 
 # TODO Write completion definition
-# TODO Style tables
-# TODO Style figures
 # TODO Allow multiple input files
 # TODO Add option for different themes/templates
 #   - Give the image and the text as parameters
@@ -144,4 +142,5 @@ pandoc \
   -H $headerTheme \
   -H ~/.config/md2pdf/md2pdf.tex \
   -o "$basename-$draftOption.pdf" \
+  -L ~/.config/md2pdf/fences-filter.lua \
   "$filename"
