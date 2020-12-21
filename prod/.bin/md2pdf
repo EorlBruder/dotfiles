@@ -4,9 +4,7 @@
 # TODO Make short-layout with title in header
 # TODO Add option for different themes/templates
 #   - Idea: Give the image and the text as parameters
-# TODO Parse other input-formats?
 # TODO Internationalize help-message
-# TODO: ~/.config -> $XDG_HOME
 
 # Constants
 HELP_MESSAGE="This tool generates a PDF from a markdown-file. It takes various options, for example a theme.
