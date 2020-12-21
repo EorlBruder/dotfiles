@@ -4,7 +4,6 @@
 # TODO Add option for different themes/templates
 #   - Idea: Give the image and the text as parameters
 # TODO Internationalize help-message
-# TODO fix issue with newline when content is empty
 
 # Constants
 HELP_MESSAGE="This tool generates a PDF from a markdown-file. It takes various options, for example a theme.

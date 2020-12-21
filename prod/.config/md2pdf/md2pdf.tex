@@ -77,6 +77,21 @@
   \newcommand{\showRightHeaderInFirstPage}{}
 }
 
+% Commands for setting title, author and date with newlines 
+\newcommand{\maybeTitle}{
+  \ifthenelse{\equal{\MyTitle}{}}{}{
+    \begin{Large}\MyTitle\end{Large}\\
+  }
+}
+\newcommand{\maybeAuthor}{
+  \ifthenelse{\equal{\MyAuthor}{}}{}{
+    \MyAuthor\\
+  }
+}
+\newcommand{\maybeDate}{
+  \ifthenelse{\equal{\MyDate}{}}{}{\MyDate}
+}
+
 % Set the header
 \newcommand{\customheader}{
   \fancyhf{}
@@ -84,7 +99,7 @@
   \setlength\headheight{2.54cm}
   \addtolength{\textheight}{-2.54cm}
   % Set the contents of the header
-  \fancyhead[L]{\titlefont{\begin{Large}\MyTitle\end{Large}\\
+  \fancyhead[L]{\titlefont{
     \leftmark}}
   \fancyhead[R]{\logo \titlefont{\logotext}}
   % Set the contents of the footer
@@ -114,9 +129,7 @@
   \customheader
 
   % Remove header text
-  \fancyhead[L]{\titlefont{\begin{Large}\MyTitle\end{Large} \\
-    \MyAuthor}
-  }
+  \fancyhead[L]{\titlefont{\maybeTitle\maybeAuthor\maybeDate}}
   \showRightHeaderInFirstPage
 }
 
