@@ -53,6 +53,8 @@
 \usepackage{graphicx}
 % Allow configuring header
 \usepackage{fancyhdr}
+% Allow extra mark commands 
+\usepackage{extramarks}
 % Allow ifthen
 \usepackage{ifthen}
 % Get page-number of last page
@@ -92,6 +94,14 @@
   \ifthenelse{\equal{\MyDate}{}}{}{\MyDate}
 }
 
+% Set rightmark below leftmark, if it exists
+\newcommand{\maybeRightmark}{
+  \ifthenelse{\equal{\firstrightmark}{}}{}{
+    \\
+    \begin{small}\firstrightmark\end{small}
+  }
+}
+
 % Set the header
 \newcommand{\customheader}{
   \fancyhf{}
@@ -100,7 +110,10 @@
   \addtolength{\textheight}{-2.54cm}
   % Set the contents of the header
   \fancyhead[L]{\titlefont{
-    \leftmark}}
+    \maybeTitle
+    \firstleftmark
+    \maybeRightmark
+  }}
   \fancyhead[R]{\logo \titlefont{\logotext}}
   % Set the contents of the footer
   \fancyfoot[C]{\pagetext}
