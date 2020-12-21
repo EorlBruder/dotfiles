@@ -1,0 +1,111 @@
+#!/bin/zsh
+# Licensed under AGPL 3.0 by EorlBruder
+
+# TODO Make short-layout with title in header
+# TODO Add option for different themes/templates
+#   - Idea: Give the image and the text as parameters
+# TODO Parse other input-formats?
+# TODO Internationalize help-message
+# TODO: ~/.config -> $XDG_HOME
+
+# Constants
+HELP_MESSAGE="This tool generates a PDF from a markdown-file. It takes various options, for example a theme.
+
+Usage: md2pdf [options] [markdown-file]
+
+The created file will by default be named 'basename'-final.pdf. By default a table-of-contents will be generated and the file will be in one column 
+
+Options:
+  --draft|-d:         Generates the document with a draft-watermark. The generated file will be named 'basename'-draft.pdf
+  --no-toc|-n:        Don't generate a table-of-contents
+  --two-columns|-2:   Generate the file in two columns instead of one
+  --title-page:  Generate a title-page
+  --language|-l:      Sets the document language. Currently only works for [english, german]. Default is german
+  --theme|-t <theme>: Sets the theme to be used. Themes lay in ~/.config/md2pdf. They can provide a logo and a text to be displayed under the logo. Default them only prints the authors name in the upper left corner.
+  --help|-h:          Show this message
+
+Licensed under AGPL 3.0 by EorlBruder"
+
+# Variables
+draftOption="final"
+tableOfContentsOption=--toc
+columnOption=onecolumn
+titlePageOption=notitlepage
+language=german
+languageCode=de-DE
+themeName=default
+
+while [ ! -z "$1" ]; do
+  case "$1" in
+    --draft|-d)
+      echo "Generating a draft document"
+      draftOption="draft"
+      ;;
+    --no-toc|-n)
+      echo "Not generating a toc"
+      tableOfContentsOption=
+      ;;
+    --two-column|-2)
+      echo "Generating two columns"
+      columnOption=twocolumn
+      ;;
+    --title-page)
+      echo "Generating a title page"
+      titlePageOption="titlepage"
+      ;;
+    --language|-l)
+      shift
+      echo "Setting language to $1"
+      language="$1"
+      if [ "$1" = "german" ]; then
+        languageCode=de-DE
+      elif [ "$1" = "english" ]; then
+        languageCode=en-GB
+      fi
+      ;;
+    --theme|-t)
+      shift
+      echo "Using theme $1"
+      themeName=$1
+      ;;
+    --help|-h)
+      echo $HELP_MESSAGE
+      exit 0
+      ;;
+    -*|--*)
+      echo "Unknown option. Displaying help-message:"
+      echo $HELP_MESSAGE
+      exit 1
+      ;;
+    *)
+      filename="$1"
+      basename="$1:r"
+      ;;
+  esac
+shift
+done
+
+if [ -z $filename ]; then
+  echo "No file provided"
+  echo $HELP_MESSAGE
+  exit 1
+fi
+
+headerTheme=~/.config/md2pdf/$themeName-header.tex
+
+echo "Converting $filename to PDF, creating $basename-$draftOption.pdf"
+
+pandoc \
+  -N \
+  -V secnumdepth:4 \
+  -V classoption:$draftOption \
+  -V classoption:$columnOption \
+  -V classoption:$titlePageOption \
+  -V classoption:$language \
+  -V urlcolor:red \
+  --pdf-engine=xelatex \
+  $tableOfContentsOption \
+  -H $headerTheme \
+  -H ~/.config/md2pdf/md2pdf.tex \
+  -o "$basename-$draftOption.pdf" \
+  "$filename"
