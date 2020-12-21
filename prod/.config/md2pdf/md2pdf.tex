@@ -38,14 +38,19 @@
 \allsectionsfont{\titlefont}
 
 % Set font for toc
-
 \let\tableofcontentsOld\tableofcontents
 \renewcommand{\tableofcontents}{\titlefont\large\tableofcontentsOld}
 
 % Set styling for quote
 \usepackage{tcolorbox}
-\newtcolorbox{myquote}{colback=red!5!white, colframe=red!75!black}
+\newtcolorbox{myquote}{colback=gray!5!white, colframe=gray!75!black}
 \renewenvironment{quote}{\begin{myquote}}{\end{myquote}}
+
+% Set styling for fences
+\newtcolorbox{dangerBox}{colback=red!5!white, colframe=red!75!black}
+\newtcolorbox{warningBox}{colback=yellow!5!white, colframe=yellow!75!black}
+\newtcolorbox{infoBox}{colback=blue!5!white, colframe=blue!75!black}
+
 
 % Allow reusing title name for header
 \usepackage{authoraftertitle}
@@ -179,4 +184,6 @@
 \fi
 \makeatother
 
-
+% Position figures and tables
+\usepackage{floatrow}
+\floatsetup[table]{style=ruled}
