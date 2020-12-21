@@ -65,10 +65,14 @@
 % Set the logo. Handle whether one is specified or not. 
 \ifthenelse{\equal{\logopath}{}}{
   \newcommand{\logo}{}
+  \newcommand{\logoBig}{}
   \newcommand{\showRightHeaderInFirstPage}{\fancyhead[R]{}}
 }{
   \newcommand{\logo}{
     \includegraphics[height = 2.24cm]{\logopath}\\
+  }
+  \newcommand{\logoBig}{
+    \includegraphics[width = 10cm]{\logopath}\\
   }
   \newcommand{\showRightHeaderInFirstPage}{}
 }
@@ -113,7 +117,9 @@
       \begin{center}
         \hspace{0pt}
         \vfill
-        \logo 
+        \logoBig 
+        \vskip.5cm
+        \large \titlefont{\logotext}
         \vskip5cm
         \huge \titlefont{\MyTitle} 
         \vskip.5cm
