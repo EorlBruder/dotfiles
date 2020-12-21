@@ -119,7 +119,9 @@
         \vfill
         \logoBig 
         \vskip.5cm
-        \large \titlefont{\logotext}
+        \ifthenelse{\equal{\logopath}{}}{}{
+          \large \titlefont{\logotext}
+        }
         \vskip5cm
         \huge \titlefont{\MyTitle} 
         \vskip.5cm
