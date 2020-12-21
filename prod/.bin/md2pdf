@@ -1,10 +1,10 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
-# TODO Make short-layout with title in header
 # TODO Add option for different themes/templates
 #   - Idea: Give the image and the text as parameters
 # TODO Internationalize help-message
+# TODO fix issue with newline when content is empty
 
 # Constants
 HELP_MESSAGE="This tool generates a PDF from a markdown-file. It takes various options, for example a theme.
@@ -17,9 +17,10 @@ Options:
   --draft|-d:         Generates the document with a draft-watermark. The generated file will be named 'basename'-draft.pdf
   --no-toc|-n:        Don't generate a table-of-contents
   --two-columns|-2:   Generate the file in two columns instead of one
-  --title-page:  Generate a title-page
+  --title-page:       Generate a title-page
   --language|-l:      Sets the document language. Currently only works for [english, german]. Default is german
   --theme|-t <theme>: Sets the theme to be used. Themes lay in ~/.config/md2pdf. They can provide a logo and a text to be displayed under the logo. Default them only prints the authors name in the upper left corner.
+  --short|-s:         Generates a short layout. This sets title and author in the header of the first page and not in the text.
   --help|-h:          Show this message
 
 Licensed under AGPL 3.0 by EorlBruder"
@@ -32,6 +33,7 @@ titlePageOption=notitlepage
 language=german
 languageCode=de-DE
 themeName=default
+shortOption=
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -65,6 +67,10 @@ while [ ! -z "$1" ]; do
       shift
       echo "Using theme $1"
       themeName=$1
+      ;;
+    --short|-s)
+      echo "Using short layout"
+      shortOption=short
       ;;
     --help|-h)
       echo $HELP_MESSAGE
@@ -100,6 +106,7 @@ pandoc \
   -V classoption:$columnOption \
   -V classoption:$titlePageOption \
   -V classoption:$language \
+  -V classoption:$shortOption \
   -V urlcolor:red \
   --pdf-engine=xelatex \
   $tableOfContentsOption \

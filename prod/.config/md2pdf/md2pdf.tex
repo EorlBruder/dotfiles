@@ -102,12 +102,29 @@
   \showRightHeaderInFirstPage
 
   % Remove the ruler for the first page
-  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\headrulewidth}{0cm}
 }
 
 % Set the pagestyle to fancy-header for all pages
 \pagestyle{fancy}
 \customheader
+
+% Congigure short-page
+\fancypagestyle{shortFirstPage}{
+  \customheader
+
+  % Remove header text
+  \fancyhead[L]{\titlefont{\begin{Large}\MyTitle\end{Large} \\
+    \MyAuthor}
+  }
+  \showRightHeaderInFirstPage
+}
+
+\makeatletter
+\@ifclasswith{article}{short}{
+  \renewcommand{\maketitle}{\thispagestyle{shortFirstPage}}
+}{}
+\makeatother
 
 % Configure the title-page
 \makeatletter
@@ -135,4 +152,5 @@
   }
 \fi
 \makeatother
+
 
