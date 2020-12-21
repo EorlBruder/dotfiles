@@ -1,8 +1,13 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
+# TODO Write completion definition
+# TODO Style tables
+# TODO Style figures
+# TODO Allow multiple input files
 # TODO Add option for different themes/templates
-#   - Idea: Give the image and the text as parameters
+#   - Give the image and the text as parameters
+#   - Give the header-file as parameter
 # TODO Internationalize help-message
 
 # Constants
