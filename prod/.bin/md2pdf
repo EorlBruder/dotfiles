@@ -21,6 +21,9 @@ Options:
   --language|-l:      Sets the document language. Currently only works for [english, german]. Default is german
   --theme|-t <theme>: Sets the theme to be used. Themes lay in ~/.config/md2pdf. They can provide a logo and a text to be displayed under the logo. Default them only prints the authors name in the upper left corner.
   --short|-s:         Generates a short layout. This sets title and author in the header of the first page and not in the text.
+  --title:            Set the title of the document. This is not necessary, if you've set the title in the source-file, but for example when converting an odt this is required.
+  --author:           Set the author of the document. This is not necessary, if you've set the author in the source-file.
+  --date:             Set the date of the document. This is not necessary, if you've set the date in the source-file.
   --help|-h:          Show this message
 
 Licensed under AGPL 3.0 by EorlBruder"
@@ -34,6 +37,9 @@ language=german
 languageCode=de-DE
 themeName=default
 shortOption=
+titleOption=
+authorOption=
+dateOption=
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -72,6 +78,24 @@ while [ ! -z "$1" ]; do
       echo "Using short layout"
       shortOption=short
       ;;
+    --title)
+      shift
+      echo "Setting title as '$1'"
+      titleOption=-M 
+      titleOption+=title:$1
+      ;;
+    --author)
+      shift
+      echo "Setting author as '$1'"
+      authorOption=-M 
+      authorOption+=author:$1
+      ;;
+    --date)
+      shift
+      echo "Setting date as '$1'"
+      dateOption=-M 
+      dateOption+=date:$1
+      ;;
     --help|-h)
       echo $HELP_MESSAGE
       exit 0
@@ -108,6 +132,9 @@ pandoc \
   -V classoption:$language \
   -V classoption:$shortOption \
   -V urlcolor:red \
+  $titleOption \
+  $authorOption \
+  $dateOption \
   --pdf-engine=xelatex \
   $tableOfContentsOption \
   -H $headerTheme \
