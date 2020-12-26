@@ -42,6 +42,7 @@ columnOption=onecolumn
 titlePageOption=notitlepage
 language=german
 languageCode=de-DE
+locale=de_DE.UTF-8
 themeName=default
 shortOption=
 titleOption=
@@ -51,6 +52,7 @@ presentation=false
 aspectRatio=169
 noFooterOption=
 debugLatex=false
+automaticDate=true
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -75,8 +77,10 @@ while [ ! -z "$1" ]; do
       echo "Setting language to $1"
       language="$1"
       if [ "$1" = "german" ]; then
+        locale=de_DE.UTF-8
         languageCode=de-DE
       elif [ "$1" = "english" ]; then
+        locale=en_GB.UTF-8
         languageCode=en-GB
       fi
       ;;
@@ -116,6 +120,10 @@ while [ ! -z "$1" ]; do
     --no-footer)
       echo "Generating presentation without footer"
       noFooterOption=nofooter
+      ;;
+    --no-automatic-date)
+      echo "Not inserting current date"
+      automaticDate=false
       ;;
     --debug-latex)
       echo "Printing Latex-File"
@@ -160,6 +168,10 @@ defaultOptions=(-V classoption:$language \
   -L ~/.config/md2pdf/fences-filter.lua \
   $filename)
 
+if [ $automaticDate = true ]; then
+  defaultOptions+=(-L ~/.config/md2pdf/currentdate-filter.lua)
+fi
+
 if [ $presentation = true ]; then
   echo "Converting $filename to PDF, creating $basename-slides.pdf"
   modeOptions=(-t beamer \
@@ -186,4 +198,4 @@ if [ $debugLatex = true ]; then
   outputOption=(--to latex)
 fi
 
-pandoc $defaultOptions $modeOptions $outputOption
+env LANG=$locale pandoc $defaultOptions $modeOptions $outputOption

@@ -1,3 +1,4 @@
+-- convert all fences into latex-environments ending in "Box". 
 function Div(el)
   elClass = el.classes[1]
   -- insert element in front
