@@ -1,48 +1,20 @@
-%Setup page 
-\usepackage[a4paper,margin=2cm]{geometry}
-
 %Setup encoding
 \usepackage[utf8]{inputenc}
 
+%Allow if then
+\usepackage{ifthen}
+\usepackage{xifthen}
 
 %Setup fonts
 \usepackage{fontspec}
 
 \setmainfont{Roboto}
 \setmonofont{Inconsolata}
-\newfontfamily\titlefont[]{Yanone Kaffeesatz}
 
-%Setup multi-language-variables
-\usepackage[base]{babel}
-\AfterBabelLanguage{german}{
-  \newcommand{\drafttext}{E N T W U R F}
-  \newcommand{\pagetext}{Seite \thepage\ von \pageref*{LastPage}}
-}
-\AfterBabelLanguage{english}{
-  \newcommand{\drafttext}{D R A F T}
-  \newcommand{\pagetext}{Page \thepage\ of \pageref*{LastPage}}
-}
-\usepackage{babel}
-
-% Setup draft behaviour
-\usepackage{ifdraft}
-\ifdraft{
-  \usepackage{draftwatermark}
-  \SetWatermarkText{\titlefont{\drafttext}}
-  \SetWatermarkColor[gray]{0.85}
-}{}
-\hypersetup{final}
-
-% Set font for titles
-\usepackage{titling}
-\usepackage{sectsty}
-
-\renewcommand{\maketitlehooka}{\titlefont}
-\allsectionsfont{\titlefont}
-
-% Set font for toc
-\let\tableofcontentsOld\tableofcontents
-\renewcommand{\tableofcontents}{\titlefont\large\tableofcontentsOld}
+\ifthenelse{\isundefined{\themefontName}}{
+    \newcommand{\themefontName}{Yanone Kaffeesatz}
+  }{}
+\newfontfamily\themefont[]{\themefontName}
 
 % Set styling for quote
 \usepackage{tcolorbox}
@@ -53,140 +25,3 @@
 \newtcolorbox{dangerBox}{colback=red!5!white, colframe=red!75!black}
 \newtcolorbox{warningBox}{colback=yellow!5!white, colframe=yellow!75!black}
 \newtcolorbox{infoBox}{colback=blue!5!white, colframe=blue!75!black}
-
-
-% Allow reusing title name for header
-\usepackage{authoraftertitle}
-% Allow using pictures 
-\usepackage{graphicx}
-% Allow configuring header
-\usepackage{fancyhdr}
-% Allow extra mark commands 
-\usepackage{extramarks}
-% Allow ifthen
-\usepackage{ifthen}
-% Get page-number of last page
-\usepackage{lastpage}
-
-% Set images to always be loaded in draft-mode too
-\let\includegraphicsOld\includegraphics
-\renewcommand{\includegraphics}[2][]{\includegraphicsOld[draft=false,#1]{#2}}
-
-% Set the logo. Handle whether one is specified or not. 
-\ifthenelse{\equal{\logopath}{}}{
-  \newcommand{\logo}{}
-  \newcommand{\logoBig}{}
-  \newcommand{\showRightHeaderInFirstPage}{\fancyhead[R]{}}
-}{
-  \newcommand{\logo}{
-    \includegraphics[height = 2.24cm]{\logopath}\\
-  }
-  \newcommand{\logoBig}{
-    \includegraphics[width = 10cm]{\logopath}\\
-  }
-  \newcommand{\showRightHeaderInFirstPage}{}
-}
-
-% Commands for setting title, author and date with newlines 
-\newcommand{\maybeTitle}{
-  \ifthenelse{\equal{\MyTitle}{}}{}{
-    \begin{Large}\MyTitle\end{Large}\\
-  }
-}
-\newcommand{\maybeAuthor}{
-  \ifthenelse{\equal{\MyAuthor}{}}{}{
-    \MyAuthor\\
-  }
-}
-\newcommand{\maybeDate}{
-  \ifthenelse{\equal{\MyDate}{}}{}{\MyDate}
-}
-
-% Set rightmark below leftmark, if it exists
-\newcommand{\maybeRightmark}{
-  \ifthenelse{\equal{\firstrightmark}{}}{}{
-    \\
-    \begin{small}\firstrightmark\end{small}
-  }
-}
-
-% Set the header
-\newcommand{\customheader}{
-  \fancyhf{}
-  % Offset the top of the page because of the image
-  \setlength\headheight{2.54cm}
-  \addtolength{\textheight}{-2.54cm}
-  % Set the contents of the header
-  \fancyhead[L]{\titlefont{
-    \maybeTitle
-    \firstleftmark
-    \maybeRightmark
-  }}
-  \fancyhead[R]{\logo \titlefont{\logotext}}
-  % Set the contents of the footer
-  \fancyfoot[C]{\pagetext}
-  % Set draft Footer
-  \ifdraft{\fancyfoot[LR]{\titlefont{\drafttext}}}{}
-}
-
-% Configure header of first page. Since \maketitle forces a plain page, we override the plain-pagestyle. 
-\fancypagestyle{plain}{
-  \customheader
-
-  % Remove header text
-  \fancyhead[L]{}
-  \showRightHeaderInFirstPage
-
-  % Remove the ruler for the first page
-  \renewcommand{\headrulewidth}{0cm}
-}
-
-% Set the pagestyle to fancy-header for all pages
-\pagestyle{fancy}
-\customheader
-
-% Congigure short-page
-\fancypagestyle{shortFirstPage}{
-  \customheader
-
-  % Remove header text
-  \fancyhead[L]{\titlefont{\maybeTitle\maybeAuthor\maybeDate}}
-  \showRightHeaderInFirstPage
-}
-
-\makeatletter
-\@ifclasswith{article}{short}{
-  \renewcommand{\maketitle}{\thispagestyle{shortFirstPage}}
-}{}
-\makeatother
-
-% Configure the title-page
-\makeatletter
-\if@titlepage 
-  \renewcommand{\maketitle}{ 
-    \begin{titlepage}
-      \begin{center}
-        \hspace{0pt}
-        \vfill
-        \logoBig 
-        \vskip.5cm
-        \ifthenelse{\equal{\logopath}{}}{}{
-          \large \titlefont{\logotext}
-        }
-        \vskip5cm
-        \huge \titlefont{\MyTitle} 
-        \vskip.5cm
-        \Large \titlefont{\MyAuthor}
-        \vskip.5cm
-        \large \titlefont{\MyDate}
-        \vfill
-        \hspace{0pt}
-      \end{center}
-    \end{titlepage}
-  }
-\fi
-\makeatother
-
-% Position figures and tables
-\usepackage{floatrow}
-\floatsetup[table]{style=ruled}
