@@ -18,7 +18,8 @@
 
 % Set styling for quote
 \usepackage{tcolorbox}
-\newtcolorbox{myquote}{colback=gray!5!white, colframe=gray!75!black, leftrule=3mm}
+\tcbuselibrary{breakable}
+\newtcolorbox{myquote}{breakable, colback=gray!5!white, colframe=gray!75!black, leftrule=3mm}
 \renewenvironment{quote}{\begin{myquote}}{\end{myquote}}
 
 % Set styling for fences
