@@ -30,6 +30,7 @@ Options:
   --title:            Set the title of the document. This is not necessary, if you've set the title in the source-file, but for example when converting an odt this is required.
   --author:           Set the author of the document. This is not necessary, if you've set the author in the source-file.
   --date:             Set the date of the document. This is not necessary, if you've set the date in the source-file.
+  --debug-latex:      Prints the resulting latex-file to stdout
   --help|-h:          Show this message
 
 Licensed under AGPL 3.0 by EorlBruder"
@@ -49,6 +50,7 @@ dateOption=
 presentation=false
 aspectRatio=169
 noFooterOption=
+debugLatex=false
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -115,6 +117,10 @@ while [ ! -z "$1" ]; do
       echo "Generating presentation without footer"
       noFooterOption=nofooter
       ;;
+    --debug-latex)
+      echo "Printing Latex-File"
+      debugLatex=true
+      ;;
     --help|-h)
       echo $HELP_MESSAGE
       exit 0
@@ -156,26 +162,28 @@ defaultOptions=(-V classoption:$language \
 
 if [ $presentation = true ]; then
   echo "Converting $filename to PDF, creating $basename-slides.pdf"
-  pandoc \
-    $defaultOptions \
-    -t beamer \
+  modeOptions=(-t beamer \
     -M theme:pureminimalistic \
     -V aspectratio:$aspectRatio \
     -V themeoptions:customfont \
     -V themeoptions:showmaxslides \
     -V themeoptions:$noFooterOption \
-    -H ~/.config/md2pdf/md2pdf-slides.tex \
-    -o "$basename-slides.pdf"
+    -H ~/.config/md2pdf/md2pdf-slides.tex)
+  outputOption=(-o "$basename-slides.pdf")
 else   
   echo "Converting $filename to PDF, creating $basename-$draftOption.pdf"
-  pandoc \
-    $defaultOptions \
-    -N \
+  modeOptions=(-N \
     -V secnumdepth:4 \
     -V classoption:$draftOption \
     -V classoption:$columnOption \
     -V classoption:$titlePageOption \
     -V classoption:$shortOption \
-    -H ~/.config/md2pdf/md2pdf-doc.tex \
-    -o "$basename-$draftOption.pdf" 
+    -H ~/.config/md2pdf/md2pdf-doc.tex)
+  outputOption=(-o "$basename-$draftOption.pdf")
 fi
+
+if [ $debugLatex = true ]; then
+  outputOption=(--to latex)
+fi
+
+pandoc $defaultOptions $modeOptions $outputOption
