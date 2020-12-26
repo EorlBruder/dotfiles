@@ -21,7 +21,7 @@ Usage: md2pdf [options] [markdown-file]
 The created file will by default be named 'basename'-final.pdf. By default a table-of-contents will be generated and the file will be in one column 
 
 Options:
-  --presentation|-p:  Generates a presentation from the document. Draft, TOC, two-columns, title-page and short options won't do anything. Aspect-Ratio and no-footer only work in this mode. 
+  --presentation|-p:  Generates a presentation from the document. Draft, two-columns, title-page and short options won't do anything. Aspect-Ratio and no-footer only work in this mode. 
   --aspect-ratio:     Set the aspect-ratio. Default is 169 (for 16:9). Furhter options are in accordance with beamers config: https://pandoc.org/MANUAL.html#variables-for-beamer-slides
   --no-footer:        Generates a presentation without a footer
   --draft|-d:         Generates the document with a draft-watermark. The generated file will be named 'basename'-draft.pdf
@@ -149,6 +149,7 @@ defaultOptions=(-V classoption:$language \
   $titleOption \
   $authorOption \
   $dateOption \
+  $tableOfContentsOption \
   --pdf-engine=xelatex \
   -H $headerTheme \
   -H ~/.config/md2pdf/md2pdf.tex \
@@ -177,7 +178,6 @@ else
     -V classoption:$columnOption \
     -V classoption:$titlePageOption \
     -V classoption:$shortOption \
-    $tableOfContentsOption \
     -H ~/.config/md2pdf/md2pdf-doc.tex \
     -o "$basename-$draftOption.pdf" 
 fi
