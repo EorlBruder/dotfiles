@@ -2,11 +2,7 @@
 # Licensed under AGPL 3.0 by EorlBruder
 
 # TODO Rename, because this does also work for stuff different from Markdown
-# TODO Add quick-draft-mode
-#   - If quick-draft-mode is set, it will generate the document without links and images. Watermark and footer will be set to draft
-#   - If normal-draft-mode is set only watermark and footer will be set to draft
 # TODO Write completion definition
-# TODO Allow multiple input files
 # TODO Add option for different themes/templates
 #   - Give the image and the text as parameters
 #   - Give the header-file as parameter
@@ -16,9 +12,9 @@
 # Constants
 HELP_MESSAGE="This tool generates a PDF from a markdown-file. It takes various options, for example a theme.
 
-Usage: md2pdf [options] [markdown-file]
+Usage: md2pdf [options] [markdown-files]
 
-The created file will by default be named 'basename'-final.pdf. By default a table-of-contents will be generated and the file will be in one column 
+The created file will by default be named 'basename'-final.pdf. You can use multiple Markdown-files, which will be rendered one after the other. The basename of the first-markdown file ist used for the pdf. By default a table-of-contents will be generated and the file will be in one column 
 
 Options:
   --presentation|-p:  Generates a presentation from the document. Draft, two-columns, title-page and short options won't do anything. Aspect-Ratio and no-footer only work in this mode. 
@@ -129,14 +125,16 @@ while [ ! -z "$1" ]; do
       exit 1
       ;;
     *)
-      filename="$1"
-      basename="$1:r"
+      filename+=("$1")
+      if [ -z $basename ]; then
+        basename="$1:r"
+      fi
       ;;
   esac
 shift
 done
 
-if [ -z $filename ]; then
+if [ -z $basename ]; then
   echo "No file provided"
   echo $HELP_MESSAGE
   exit 1
@@ -154,7 +152,7 @@ defaultOptions=(-V classoption:$language \
   -H $headerTheme \
   -H ~/.config/md2pdf/md2pdf.tex \
   -L ~/.config/md2pdf/fences-filter.lua \
-  "$filename")
+  $filename)
 
 if [ $presentation = true ]; then
   echo "Converting $filename to PDF, creating $basename-slides.pdf"
