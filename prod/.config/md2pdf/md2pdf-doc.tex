@@ -86,6 +86,28 @@
   }
 }
 
+% Clear header and footer if needed
+\newcommand{\clearHeaderHook}{}
+\newcommand{\clearFooterHook}{}
+
+\makeatletter
+\@ifclasswith{article}{noheader}{
+  \renewcommand{\clearHeaderHook}{
+    \fancyhead{}
+    \renewcommand{\headrulewidth}{0cm}
+  }
+}{}
+\makeatother
+
+\makeatletter
+\@ifclasswith{article}{nofooter}{
+  \renewcommand{\clearFooterHook}{
+    \fancyfoot{}
+    \renewcommand{\footrulewidth}{0cm}
+  }
+}{}
+\makeatother
+
 % Set the header
 \newcommand{\customheader}{
   \fancyhf{}
@@ -103,6 +125,8 @@
   \fancyfoot[C]{\pagetext}
   % Set draft Footer
   \ifdraft{\fancyfoot[LR]{\themefont{\drafttext}}}{}
+  \clearHeaderHook
+  \clearFooterHook
 }
 
 % Configure header of first page. Since \maketitle forces a plain page, we override the plain-pagestyle. 
@@ -115,6 +139,8 @@
 
   % Remove the ruler for the first page
   \renewcommand{\headrulewidth}{0cm}
+  \clearHeaderHook
+  \clearFooterHook
 }
 
 % Set the pagestyle to fancy-header for all pages
@@ -128,6 +154,8 @@
   % Remove header text
   \fancyhead[L]{\themefont{\maybeTitle\maybeAuthor\maybeDate}}
   \showRightHeaderInFirstPage
+  \clearHeaderHook
+  \clearFooterHook
 }
 
 \makeatletter
@@ -166,3 +194,15 @@
 % Position figures and tables
 \usepackage{floatrow}
 \floatsetup[table]{style=ruled}
+
+% Hook for overriding the header
+\ifcsname themeHeaderHook\endcsname
+  \fancypagestyle{customHeader}{
+    % Offset the top of the page because of the image
+    \setlength\headheight{3.3cm}
+    \addtolength{\textheight}{-3.3cm}
+    \fancyhead{\themeHeaderHook}
+    \renewcommand{\headrulewidth}{0cm}
+  }
+  \pagestyle{customHeader}
+\fi

@@ -17,21 +17,23 @@ Usage: md2pdf [options] [markdown-files]
 The created file will by default be named 'basename'-final.pdf. You can use multiple Markdown-files, which will be rendered one after the other. The basename of the first-markdown file ist used for the pdf. By default a table-of-contents will be generated and the file will be in one column 
 
 Options:
-  --presentation|-p:  Generates a presentation from the document. Draft, two-columns, title-page and short options won't do anything. Aspect-Ratio and no-footer only work in this mode. 
-  --aspect-ratio:     Set the aspect-ratio. Default is 169 (for 16:9). Furhter options are in accordance with beamers config: https://pandoc.org/MANUAL.html#variables-for-beamer-slides
-  --no-footer:        Generates a presentation without a footer
-  --draft|-d:         Generates the document with a draft-watermark. The generated file will be named 'basename'-draft.pdf
-  --no-toc|-n:        Don't generate a table-of-contents
-  --two-columns|-2:   Generate the file in two columns instead of one
-  --title-page:       Generate a title-page
-  --language|-l:      Sets the document language. Currently only works for [english, german]. Default is german
-  --theme|-t <theme>: Sets the theme to be used. Themes lay in ~/.config/md2pdf. They can provide a logo and a text to be displayed under the logo. Default them only prints the authors name in the upper left corner.
-  --short|-s:         Generates a short layout. This sets title and author in the header of the first page and not in the text.
-  --title:            Set the title of the document. This is not necessary, if you've set the title in the source-file, but for example when converting an odt this is required.
-  --author:           Set the author of the document. This is not necessary, if you've set the author in the source-file.
-  --date:             Set the date of the document. This is not necessary, if you've set the date in the source-file.
-  --debug-latex:      Prints the resulting latex-file to stdout
-  --help|-h:          Show this message
+  --presentation|-p:    Generates a presentation from the document. Draft, two-columns, title-page, no-header and short options won't do anything aspect-ratio  only works in this mode. 
+  --aspect-ratio:       Set the aspect-ratio. Default is 169 (for 16:9). Furhter options are in accordance with beamers config: https://pandoc.org/MANUAL.html#variables-for-beamer-slides
+  --no-footer:          Generates a document without a footer
+  --no-header:          Generates a document without a header
+  --draft|-d:           Generates the document with a draft-watermark. The generated file will be named 'basename'-draft.pdf
+  --no-toc|-n:          Don't generate a table-of-contents
+  --two-columns|-2:     Generate the file in two columns instead of one
+  --title-page:         Generate a title-page
+  --language|-l:        Sets the document language. Currently only works for [english, german]. Default is german
+  --theme|-t <theme>:   Sets the theme to be used. Themes lay in ~/.config/md2pdf. They can provide a logo and a text to be displayed under the logo. Default them only prints the authors name in the upper left corner.
+  --short|-s:           Generates a short layout. This sets title and author in the header of the first page and not in the text.
+  --title:              Set the title of the document. This is not necessary, if you've set the title in the source-file, but for example when converting an odt this is required.
+  --author:             Set the author of the document. This is not necessary, if you've set the author in the source-file.
+  --date:               Set the date of the document. This is not necessary, if you've set the date in the source-file.
+  --no-automatic-date:  Don't automatically set the current date, if no date is provided in the metadata. 
+  --debug-latex:        Prints the resulting latex-file to stdout
+  --help|-h:            Show this message
 
 Licensed under AGPL 3.0 by EorlBruder"
 
@@ -51,6 +53,7 @@ dateOption=
 presentation=false
 aspectRatio=169
 noFooterOption=
+noHeaderOption=
 debugLatex=false
 automaticDate=true
 
@@ -118,8 +121,12 @@ while [ ! -z "$1" ]; do
       aspectRatio=$1
       ;;
     --no-footer)
-      echo "Generating presentation without footer"
+      echo "Generating document without a footer"
       noFooterOption=nofooter
+      ;;
+    --no-header)
+      echo "Generating document without a header"
+      noHeaderOption=noheader
       ;;
     --no-automatic-date)
       echo "Not inserting current date"
@@ -190,6 +197,8 @@ else
     -V classoption:$columnOption \
     -V classoption:$titlePageOption \
     -V classoption:$shortOption \
+    -V classoption:$noFooterOption \
+    -V classoption:$noHeaderOption \
     -H ~/.config/md2pdf/md2pdf-doc.tex)
   outputOption=(-o "$basename-$draftOption.pdf")
 fi
