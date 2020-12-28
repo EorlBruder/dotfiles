@@ -1,7 +1,15 @@
 %Setup page 
 \usepackage[a4paper,margin=2cm]{geometry}
 
+% Make titles configurable
+\usepackage{titling}
+\usepackage{sectsty}
+
+% Allow reusing title name for header
+\usepackage{authoraftertitle}
+
 %Setup multi-language-variables
+% TODO set-up separate for internationalization
 \usepackage[base]{babel}
 \AfterBabelLanguage{german}{
   \newcommand{\drafttext}{E N T W U R F}
@@ -14,7 +22,6 @@
 \usepackage{babel}
 
 % Setup draft behaviour
-\usepackage{ifdraft}
 \ifdraft{
   \usepackage{draftwatermark}
   \SetWatermarkText{\themefont{\drafttext}}
@@ -23,9 +30,6 @@
 \hypersetup{final}
 
 % Set font for titles
-\usepackage{titling}
-\usepackage{sectsty}
-
 \renewcommand{\maketitlehooka}{\themefont}
 \allsectionsfont{\themefont}
 
@@ -33,54 +37,40 @@
 \let\tableofcontentsOld\tableofcontents
 \renewcommand{\tableofcontents}{\themefont\large\tableofcontentsOld}
 
-% Allow reusing title name for header
-\usepackage{authoraftertitle}
-% Allow using pictures 
-\usepackage{graphicx}
-% Allow configuring header
-\usepackage{fancyhdr}
-% Allow extra mark commands 
-\usepackage{extramarks}
-% Get page-number of last page
-\usepackage{lastpage}
-
 % Set images to always be loaded in draft-mode too
 \let\includegraphicsOld\includegraphics
 \renewcommand{\includegraphics}[2][]{\includegraphicsOld[draft=false,#1]{#2}}
 
 % Set the logo. Handle whether one is specified or not. 
-\ifthenelse{\equal{\logopath}{}}{
+\ifEmpty{\logopath}{
   \newcommand{\logo}{}
   \newcommand{\logoBig}{}
   \newcommand{\showRightHeaderInFirstPage}{\fancyhead[R]{}}
 }{
   \newcommand{\logo}{
-    \includegraphics[height = 2.24cm]{\logopath}\\
+    \renderLogo{2.24cm}\\
   }
   \newcommand{\logoBig}{
-    \includegraphics[width = 10cm]{\logopath}\\
+    \renderLogo{10cm}\\
   }
   \newcommand{\showRightHeaderInFirstPage}{}
 }
 
 % Commands for setting title, author and date with newlines 
 \newcommand{\maybeTitle}{
-  \ifthenelse{\equal{\MyTitle}{}}{}{
+  \ifEmpty{\MyTitle}{}{
     \begin{Large}\MyTitle\end{Large}\\
   }
 }
 \newcommand{\maybeAuthor}{
-  \ifthenelse{\equal{\MyAuthor}{}}{}{
+  \ifEmpty{\MyAuthor}{}{
     \MyAuthor\\
   }
-}
-\newcommand{\maybeDate}{
-  \ifthenelse{\equal{\MyDate}{}}{}{\MyDate}
 }
 
 % Set rightmark below leftmark, if it exists
 \newcommand{\maybeRightmark}{
-  \ifthenelse{\equal{\firstrightmark}{}}{}{
+  \ifEmpty{\firstrightmark}{}{
     \\
     \begin{small}\firstrightmark\end{small}
   }
@@ -90,27 +80,23 @@
 \newcommand{\clearHeaderHook}{}
 \newcommand{\clearFooterHook}{}
 
-\makeatletter
-\@ifclasswith{article}{noheader}{
+\ifClassoptionSet{noheader}{
   \renewcommand{\clearHeaderHook}{
     \fancyhead{}
     \renewcommand{\headrulewidth}{0cm}
   }
 }{}
-\makeatother
 
-\makeatletter
-\@ifclasswith{article}{nofooter}{
+\ifClassoptionSet{nofooter}{
   \renewcommand{\clearFooterHook}{
     \fancyfoot{}
     \renewcommand{\footrulewidth}{0cm}
   }
 }{}
-\makeatother
 
-% Set the header
+% Set the header and footer
 \newcommand{\customheader}{
-  \fancyhf{}
+  \fancyhead{}
   % Offset the top of the page because of the image
   \setlength\headheight{2.54cm}
   \addtolength{\textheight}{-2.54cm}
@@ -121,17 +107,27 @@
     \maybeRightmark
   }}
   \fancyhead[R]{\logo \themefont{\logotext}}
+  \clearHeaderHook
+}
+
+\newcommand{\customfooter}{
+  \fancyfoot{}
   % Set the contents of the footer
   \fancyfoot[C]{\pagetext}
   % Set draft Footer
   \ifdraft{\fancyfoot[LR]{\themefont{\drafttext}}}{}
-  \clearHeaderHook
   \clearFooterHook
+}
+
+
+\newcommand{\customheaderfooter}{
+  \customheader
+  \customfooter
 }
 
 % Configure header of first page. Since \maketitle forces a plain page, we override the plain-pagestyle. 
 \fancypagestyle{plain}{
-  \customheader
+  \customheaderfooter
 
   % Remove header text
   \fancyhead[L]{}
@@ -144,25 +140,23 @@
 }
 
 % Set the pagestyle to fancy-header for all pages
-\pagestyle{fancy}
-\customheader
+\fancypagestyle{fancyCustom}{
+  \customheaderfooter
+}
+\pagestyle{fancyCustom}
 
 % Congigure short-page
 \fancypagestyle{shortFirstPage}{
-  \customheader
+  \customheaderfooter
 
   % Remove header text
-  \fancyhead[L]{\themefont{\maybeTitle\maybeAuthor\maybeDate}}
+  \fancyhead[L]{\themefont{\maybeTitle\maybeAuthor\MyDate}}
   \showRightHeaderInFirstPage
   \clearHeaderHook
   \clearFooterHook
 }
 
-\makeatletter
-\@ifclasswith{article}{short}{
-  \renewcommand{\maketitle}{\thispagestyle{shortFirstPage}}
-}{}
-\makeatother
+\ifClassoptionSet{short}{\renewcommand{\maketitle}{\thispagestyle{shortFirstPage}}}{}
 
 % Configure the title-page
 \makeatletter
@@ -190,24 +184,4 @@
   }
 \fi
 \makeatother
-
-% Position figures and tables
-\usepackage{floatrow}
-\floatsetup[table]{style=ruled}
-
-% Hook for overriding the header
-\ifcsname themeHeaderHook\endcsname
-  \fancypagestyle{customHeader}{
-    % Offset the top of the page because of the image
-    \setlength\headheight{3.3cm}
-    \fancyhead{\themeHeaderHook}
-    \renewcommand{\headrulewidth}{0cm}
-  }
-  \pagestyle{customHeader}
-\fi
-
-% Last hook
-\ifcsname themeFinalHook\endcsname
-  \themeFinalHook
-\fi
 

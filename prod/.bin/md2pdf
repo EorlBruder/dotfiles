@@ -1,7 +1,7 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
-# TODO Rename, because this does also work for stuff different from Markdown
+# TODO Fix bug with first page in newsletter
 # TODO Write completion definition
 # TODO Add option for different themes/templates
 #   - Give the image and the text as parameters
@@ -10,6 +10,7 @@
 # TODO Internationalize help-message
 
 # Constants
+CONF_DIR=~/.config/md2pdf
 HELP_MESSAGE="This tool generates a PDF from a markdown-file. It takes various options, for example a theme.
 
 Usage: md2pdf [options] [markdown-files]
@@ -26,7 +27,7 @@ Options:
   --two-columns|-2:     Generate the file in two columns instead of one
   --title-page:         Generate a title-page
   --language|-l:        Sets the document language. Currently only works for [english, german]. Default is german
-  --theme|-t <theme>:   Sets the theme to be used. Themes lay in ~/.config/md2pdf. They can provide a logo and a text to be displayed under the logo. Default them only prints the authors name in the upper left corner.
+  --theme|-t <theme>:   Sets the theme to be used. Themes lay in $CONF_DIR. They can provide a logo and a text to be displayed under the logo. Default them only prints the authors name in the upper left corner.
   --newsletter:         Generates as a themed newsletter. This will put all sections in boxes and sets the header to a fixed name with boxes.
   --short|-s:           Generates a short layout. This sets title and author in the header of the first page and not in the text.
   --title:              Set the title of the document. This is not necessary, if you've set the title in the source-file, but for example when converting an odt this is required.
@@ -58,6 +59,7 @@ noHeaderOption=
 debugLatex=false
 automaticDate=true
 newsletterOption=
+numberSectionsOption=-N
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -96,9 +98,10 @@ while [ ! -z "$1" ]; do
       ;;
     --newsletter)
       echo "Generating a newsletter"
-      newsletterOption=(-H ~/.config/md2pdf/newsletter-base.tex)
+      newsletterOption=(-H $CONF_DIR/newsletter.tex)
       tableOfContentsOption=
       columnOption=twocolumn
+      numberSectionsOption=
       ;;
     --short|-s)
       echo "Using short layout"
@@ -169,7 +172,7 @@ if [ -z $basename ]; then
   exit 1
 fi
 
-headerTheme=~/.config/md2pdf/$themeName-header.tex
+headerTheme=$CONF_DIR/$themeName-header.tex
 
 defaultOptions=(-V classoption:$language \
   -V urlcolor:red \
@@ -178,14 +181,16 @@ defaultOptions=(-V classoption:$language \
   $dateOption \
   $tableOfContentsOption \
   --pdf-engine=xelatex \
+  -H $CONF_DIR/packages.tex \
+  -H $CONF_DIR/utils.tex \
   -H $headerTheme \
   $newsletterOption \
-  -H ~/.config/md2pdf/md2pdf.tex \
-  -L ~/.config/md2pdf/fences-filter.lua \
+  -H $CONF_DIR/main.tex \
+  -L $CONF_DIR/fences-filter.lua \
   $filename)
 
 if [ $automaticDate = true ]; then
-  defaultOptions+=(-L ~/.config/md2pdf/currentdate-filter.lua)
+  defaultOptions+=(-L $CONF_DIR/currentdate-filter.lua)
 fi
 
 if [ $presentation = true ]; then
@@ -196,11 +201,11 @@ if [ $presentation = true ]; then
     -V themeoptions:customfont \
     -V themeoptions:showmaxslides \
     -V themeoptions:$noFooterOption \
-    -H ~/.config/md2pdf/md2pdf-slides.tex)
+    -H $CONF_DIR/slides.tex)
   outputOption=(-o "$basename-slides.pdf")
 else   
   echo "Converting $filename to PDF, creating $basename-$draftOption.pdf"
-  modeOptions=(-N \
+  modeOptions=($numberSectionsOption \
     -V secnumdepth:4 \
     -V classoption:$draftOption \
     -V classoption:$columnOption \
@@ -208,7 +213,7 @@ else
     -V classoption:$shortOption \
     -V classoption:$noFooterOption \
     -V classoption:$noHeaderOption \
-    -H ~/.config/md2pdf/md2pdf-doc.tex)
+    -H $CONF_DIR/document.tex)
   outputOption=(-o "$basename-$draftOption.pdf")
 fi
 
@@ -216,4 +221,4 @@ if [ $debugLatex = true ]; then
   outputOption=(--to latex)
 fi
 
-env LANG=$locale pandoc $defaultOptions $modeOptions $outputOption
+env LANG=$locale pandoc $defaultOptions $modeOptions -H $CONF_DIR/final-hook.tex $outputOption

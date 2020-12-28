@@ -1,47 +1,66 @@
-%Setup encoding
-\usepackage[utf8]{inputenc}
-
-%Allow if then
-\usepackage{ifthen}
-\usepackage{xifthen}
-
-%Setup fonts
-\usepackage{fontspec}
-
+% Setup fonts
 \setmainfont{Roboto}
 \setmonofont{Inconsolata}
 
-\ifthenelse{\isundefined{\themefontName}}{
+\ifCommandDefined{themefontName}{}{
     \newcommand{\themefontName}{Yanone Kaffeesatz}
-  }{}
+  }
 \newfontfamily\themefont[]{\themefontName}
 
-%Setup variables
-\ifthenelse{\isundefined{\logopath}}{
-  \newcommand{\logopath}{}}{}
-\ifthenelse{\isundefined{\logotext}}{
-  \newcommand{\logotext}{}}{}
-\newcommand{\logoRendered}[1]{
-  \ifthenelse{\equal{\logopath}{}}{}{
-    \includegraphics[height=#1]{\logopath}
-  }
-}
 
 % Set styling for quote
-\usepackage{tcolorbox}
-\tcbuselibrary{breakable}
-\tcbuselibrary{skins}
-
-\newtcolorbox{myquote}{breakable, colback=gray!5!white, colframe=gray!75!black, leftrule=3mm}
-\renewenvironment{quote}{\begin{myquote}}{\end{myquote}}
+\newenvironment{quoteBox}[1]{
+  \begin{tcolorbox}[
+    breakable, 
+    colback=gray!5!white, 
+    colframe=gray!75!black, 
+    leftrule=3mm, 
+    title=#1
+  ]
+}{
+  \end{tcolorbox}
+}
+\renewenvironment{quote}{\begin{quoteBox}{}}{\end{quoteBox}}
 
 % Set styling for fences
-\newenvironment{dangerBox}[1]{\begin{tcolorbox}[colback=red!5!white, colframe=red!75!black, title=#1]}{\end{tcolorbox}}
-\newenvironment{warningBox}[1]{\begin{tcolorbox}[colback=yellow!5!white, colframe=yellow!75!black, title=#1]}{\end{tcolorbox}}
-\newenvironment{infoBox}[1]{\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=#1]}{\end{tcolorbox}}
-\newenvironment{successBox}[1]{\begin{tcolorbox}[colback=green!5!white, colframe=green!75!black, title=#1]}{\end{tcolorbox}}
+\newenvironment{dangerBox}[1]{
+  \begin{tcolorbox}[
+    colback=red!5!white, 
+    colframe=red!75!black, 
+    title=#1
+  ]
+}{
+  \end{tcolorbox}
+}
+\newenvironment{warningBox}[1]{
+  \begin{tcolorbox}[
+    colback=yellow!5!white, 
+    colframe=yellow!75!black, 
+    title=#1
+  ]
+}{
+  \end{tcolorbox}
+}
+\newenvironment{infoBox}[1]{
+  \begin{tcolorbox}[
+    colback=blue!5!white, 
+    colframe=blue!75!black, 
+    title=#1
+  ]
+}{
+  \end{tcolorbox}
+}
+\newenvironment{successBox}[1]{
+  \begin{tcolorbox}[
+    colback=green!5!white, 
+    colframe=green!75!black, 
+    title=#1
+  ]
+}{
+  \end{tcolorbox}
+}
 
-% Set styling for special boxes
+% Set styling for fancy boxes
 \usetikzlibrary{calc}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{main,foreground}
@@ -93,7 +112,7 @@
   \end{tcolorbox}
 }
 
-\newenvironment{fancyTitleBox}[1]{
+\newenvironment{fancyTitleBox}{
   \begin{tcolorbox}[
     enhanced,
     colback=white,
@@ -143,5 +162,3 @@
 }{
   \end{tcolorbox}
 }
-
-

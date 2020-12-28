@@ -1,18 +1,24 @@
 % Set header in a box
-\newcommand{\titleLogo}{\raisebox{-0.2\height}{\logoRendered{1.5cm}}}
+\newcommand{\titleLogo}{\raisebox{-0.2\height}{\renderLogo{1.5cm}}}
 
-\usepackage{xstring}
+\newcommand{\newsletterTitleText}{
+  \ifEmpty{\logopath}{
+    Newsletter
+  }{
+    \MyTitle
+  }
+}
 
-\def\basiceval#1{\the\numexpr#1\relax}
 \newcommand{\newsletterTitle}{
-  \ifthenelse{\equal{\MyTitle}{}}{
-    \ifthenelse{\equal{\logopath}{}}{
+  % We can't use \newsletterTitleText, cause it causes problems with xstrings
+  \ifEmpty{\MyTitle}{
+    \ifEmpty{\logopath}{
       Newsletter
     }{
-      \titleLogo
+      Newsletter \titleLogo
     }
   }{
-    \ifthenelse{\equal{\logopath}{}}{
+    \ifEmpty{\logopath}{
       \MyTitle
     }{
       \StrCount{\MyTitle}{ }[\spacesInTitle]
@@ -26,25 +32,30 @@
   }
 }
 
-\newcommand{\themeHeaderHook}{
-  \begin{fancyTitleBox}
-    % Latex is weirdly gobbling up chars here...
-    .
-    \ifcsname newsletterTitle\endcsname
+% Setting the title-header
+\fancypagestyle{fancyBoxHeader}{
+  \fancyhf{}
+  % Offset the top of the page because of the image
+  \addtolength{\textheight}{\headheight}
+  \setlength\headheight{3.3cm}
+  \addtolength{\textheight}{-3.3cm}
+  \fancyhead[C]{
+    \begin{fancyTitleBox}
       \newsletterTitle
-    \else
-      \logotext 
-    \fi
-  \end{fancyTitleBox}
+    \end{fancyTitleBox}
+  }
+  \renewcommand{\headrulewidth}{0cm}
+  \clearHeaderHook
+  \customfooter
 }
 
 % Let sections be in boxes
-\newcommand{\themeFinalHook}{
-  \usepackage{ifthen}
+\addToFinalHook{
   \newboolean{alreadyCalled}
   \setboolean{alreadyCalled}{false}
-
-  \renewcommand{\maketitle}{}
+  
+  \renewcommand{\maketitle}{} 
+  \pagestyle{fancyBoxHeader}
   
   \renewcommand{\section}[1]{
     \ifthenelse{\boolean{alreadyCalled}}{
@@ -57,14 +68,12 @@
   }
 
   \LetLtxMacro\enddocumentOld\enddocument
-
-  \renewcommand{\enddocument}{
+  \AtEndDocument{
     \ifthenelse{\boolean{alreadyCalled}}{
       \end{fancyBox}
     }{}
-    \end{documentOld}
   }
 }
 
-% Set bigger gap between columsn
+% Set bigger gap between columns
 \setlength{\columnsep}{1cm}
