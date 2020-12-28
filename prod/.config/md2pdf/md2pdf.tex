@@ -16,6 +16,17 @@
   }{}
 \newfontfamily\themefont[]{\themefontName}
 
+%Setup variables
+\ifthenelse{\isundefined{\logopath}}{
+  \newcommand{\logopath}{}}{}
+\ifthenelse{\isundefined{\logotext}}{
+  \newcommand{\logotext}{}}{}
+\newcommand{\logoRendered}[1]{
+  \ifthenelse{\equal{\logopath}{}}{}{
+    \includegraphics[height=#1]{\logopath}
+  }
+}
+
 % Set styling for quote
 \usepackage{tcolorbox}
 \tcbuselibrary{breakable}

@@ -22,11 +22,12 @@ Options:
   --no-footer:          Generates a document without a footer
   --no-header:          Generates a document without a header
   --draft|-d:           Generates the document with a draft-watermark. The generated file will be named 'basename'-draft.pdf
-  --no-toc|-n:          Don't generate a table-of-contents
+  --no-toc:             Don't generate a table-of-contents
   --two-columns|-2:     Generate the file in two columns instead of one
   --title-page:         Generate a title-page
   --language|-l:        Sets the document language. Currently only works for [english, german]. Default is german
   --theme|-t <theme>:   Sets the theme to be used. Themes lay in ~/.config/md2pdf. They can provide a logo and a text to be displayed under the logo. Default them only prints the authors name in the upper left corner.
+  --newsletter:         Generates as a themed newsletter. This will put all sections in boxes and sets the header to a fixed name with boxes.
   --short|-s:           Generates a short layout. This sets title and author in the header of the first page and not in the text.
   --title:              Set the title of the document. This is not necessary, if you've set the title in the source-file, but for example when converting an odt this is required.
   --author:             Set the author of the document. This is not necessary, if you've set the author in the source-file.
@@ -56,6 +57,7 @@ noFooterOption=
 noHeaderOption=
 debugLatex=false
 automaticDate=true
+newsletterOption=
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -63,7 +65,7 @@ while [ ! -z "$1" ]; do
       echo "Generating a draft document"
       draftOption="draft"
       ;;
-    --no-toc|-n)
+    --no-toc)
       echo "Not generating a toc"
       tableOfContentsOption=
       ;;
@@ -91,6 +93,12 @@ while [ ! -z "$1" ]; do
       shift
       echo "Using theme $1"
       themeName=$1
+      ;;
+    --newsletter)
+      echo "Generating a newsletter"
+      newsletterOption=(-H ~/.config/md2pdf/newsletter-base.tex)
+      tableOfContentsOption=
+      columnOption=twocolumn
       ;;
     --short|-s)
       echo "Using short layout"
@@ -171,6 +179,7 @@ defaultOptions=(-V classoption:$language \
   $tableOfContentsOption \
   --pdf-engine=xelatex \
   -H $headerTheme \
+  $newsletterOption \
   -H ~/.config/md2pdf/md2pdf.tex \
   -L ~/.config/md2pdf/fences-filter.lua \
   $filename)

@@ -1,0 +1,42 @@
+% Set header in a box
+\usepackage{bold-extra}
+\newcommand{\themeHeaderHook}{
+  \begin{fancyTitleBox}
+    % Latex is weirdly gobbling up chars here...
+    .
+    \ifcsname newsletterTitle\endcsname
+      \newsletterTitle
+    \else
+      \logotext 
+    \fi
+  \end{fancyTitleBox}
+}
+
+% Let sections be in boxes
+\newcommand{\themeFinalHook}{
+  \usepackage{ifthen}
+  \newboolean{alreadyCalled}
+  \setboolean{alreadyCalled}{false}
+
+  \renewcommand{\maketitle}{}
+  
+  \renewcommand{\section}[1]{
+    \ifthenelse{\boolean{alreadyCalled}}{
+      \end{fancyBox}
+      \begin{fancyBox}{##1}
+    }{
+      \begin{fancyBox}{##1}
+    }
+    \setboolean{alreadyCalled}{true}
+  }
+
+  \LetLtxMacro\enddocumentOld\enddocument
+
+  \renewcommand{\enddocument}{
+    \ifthenelse{\boolean{alreadyCalled}}{
+      \end{fancyBox}
+    }{}
+    \end{documentOld}
+  }
+}
+
