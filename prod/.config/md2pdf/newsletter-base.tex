@@ -1,5 +1,31 @@
 % Set header in a box
-\usepackage{bold-extra}
+\newcommand{\titleLogo}{\raisebox{-0.2\height}{\logoRendered{1.5cm}}}
+
+\usepackage{xstring}
+
+\def\basiceval#1{\the\numexpr#1\relax}
+\newcommand{\newsletterTitle}{
+  \ifthenelse{\equal{\MyTitle}{}}{
+    \ifthenelse{\equal{\logopath}{}}{
+      Newsletter
+    }{
+      \titleLogo
+    }
+  }{
+    \ifthenelse{\equal{\logopath}{}}{
+      \MyTitle
+    }{
+      \StrCount{\MyTitle}{ }[\spacesInTitle]
+      \ifodd \spacesInTitle 
+        \let \spacesInTitleOld \spacesInTitle
+        \renewcommand{\spacesInTitle}{\basiceval{\spacesInTitleOld - 1}}
+      \fi
+      \StrCut[\basiceval{(\spacesInTitle+2)/2}]{\MyTitle}{ }\firstPart\secondPart
+      \firstPart \titleLogo \secondPart
+    }
+  }
+}
+
 \newcommand{\themeHeaderHook}{
   \begin{fancyTitleBox}
     % Latex is weirdly gobbling up chars here...
