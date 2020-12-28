@@ -206,3 +206,9 @@
   }
   \pagestyle{customHeader}
 \fi
+
+% Last hook
+\ifcsname themeFinalHook\endcsname
+  \themeFinalHook
+\fi
+
