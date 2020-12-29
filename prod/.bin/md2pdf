@@ -1,9 +1,6 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
-# TODO Fix outside-box ending with new fancyBox
-# TODO Don't render empty fancyBox
-# TODO Add "empty-box"-environment for formatting in newsletter-mode
 # TODO Write completion definition
 # TODO Add option for different themes/templates
 #   - Give the image and the text as parameters
