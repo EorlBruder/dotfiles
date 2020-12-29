@@ -76,5 +76,21 @@
   }
 }
 
+\newcommand{\outsideBoxParamTmp}{}
+\renewenvironment{outsideBox}[1]{
+  \renewcommand{\outsideBoxParamTmp}{#1}
+}{}
+\AddToHook{env/outsideBox/before}{
+  \ifthenelse{\boolean{alreadyCalled}}{
+    \end{fancyBox}
+  }{}
+}
+\AddToHook{env/outsideBox/after}{
+  \ifthenelse{\boolean{alreadyCalled}}{
+    \begin{fancyBox}{\outsideBoxParamTmp}
+  }{}
+}
+
+
 % Set bigger gap between columns
 \setlength{\columnsep}{1cm}
