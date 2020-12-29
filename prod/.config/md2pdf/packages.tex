@@ -5,7 +5,6 @@
 
 % Allow if/then/else with extended commands
 \usepackage{ifthen}
-\usepackage{xifthen}
 
 % Allow setting fonts
 \usepackage{fontspec}
@@ -28,7 +27,8 @@
 \usepackage{extramarks}
 
 % Get page-number of last page
-\usepackage{lastpage}
+\usepackage{pageslts}
+\AtBeginDocument{\pagenumbering{arabic}}
 
 % Allow advanced string modifications
 \usepackage{xstring}

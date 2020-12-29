@@ -1,8 +1,6 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
-# TODO Fix bug with first page in newsletter
-# TODO Add "outside-box"-environment for newsletter-mode
 # TODO Add "empty-box"-environment for formatting in newsletter-mode
 # TODO Write completion definition
 # TODO Add option for different themes/templates
@@ -186,8 +184,8 @@ defaultOptions=(-V classoption:$language \
   -H $CONF_DIR/packages.tex \
   -H $CONF_DIR/utils.tex \
   -H $headerTheme \
-  $newsletterOption \
   -H $CONF_DIR/main.tex \
+  $newsletterOption \
   -L $CONF_DIR/fences-filter.lua \
   $filename)
 

@@ -37,10 +37,10 @@
   \fancyhf{}
   % Offset the top of the page because of the image
   \addtolength{\textheight}{\headheight}
-  \setlength\headheight{3.3cm}
-  \addtolength{\textheight}{-3.3cm}
+  \setlength\headheight{125pt}
+  \addtolength{\textheight}{-100pt}
   \fancyhead[C]{
-    \begin{fancyTitleBox}
+    \begin{fancyTitleBox}{}
       \newsletterTitle
     \end{fancyTitleBox}
   }
@@ -50,9 +50,10 @@
 }
 
 % Let sections be in boxes
+\newboolean{alreadyCalled}
+\setboolean{alreadyCalled}{false}
+
 \addToFinalHook{
-  \newboolean{alreadyCalled}
-  \setboolean{alreadyCalled}{false}
   
   \renewcommand{\maketitle}{} 
   \pagestyle{fancyBoxHeader}
@@ -68,7 +69,6 @@
     \setboolean{alreadyCalled}{true}
   }
 
-  \LetLtxMacro\enddocumentOld\enddocument
   \AtEndDocument{
     \ifthenelse{\boolean{alreadyCalled}}{
       \end{fancyBox}
