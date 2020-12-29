@@ -33,16 +33,16 @@
 }
 
 % Setting the title-header
-\fancypagestyle{fancyBoxHeader}{
+\fancypagestyle{newsletterBoxHeader}{
   \fancyhf{}
   % Offset the top of the page because of the image
   \addtolength{\textheight}{\headheight}
   \setlength\headheight{125pt}
   \addtolength{\textheight}{-100pt}
   \fancyhead[C]{
-    \begin{fancyTitleBox}{}
+    \begin{newsletterTitleBox}{}
       \newsletterTitle
-    \end{fancyTitleBox}
+    \end{newsletterTitleBox}
   }
   \renewcommand{\headrulewidth}{0cm}
   \clearHeaderHook
@@ -56,41 +56,50 @@
 \addToFinalHook{
   
   \renewcommand{\maketitle}{} 
-  \pagestyle{fancyBoxHeader}
+  \pagestyle{newsletterBoxHeader}
   
   \renewcommand{\section}[1]{
     \addcontentsline{toc}{section}{##1}
     \ifthenelse{\boolean{alreadyCalled}}{
-      \end{fancyBox}
-      \begin{fancyBox}{##1}
+      \end{newsletterBox}
+      \begin{newsletterBox}{##1}
     }{
-      \begin{fancyBox}{##1}
+      \begin{newsletterBox}{##1}
     }
     \setboolean{alreadyCalled}{true}
   }
 
   \AtEndDocument{
     \ifthenelse{\boolean{alreadyCalled}}{
-      \end{fancyBox}
+      \end{newsletterBox}
     }{}
   }
 }
 
-\newcommand{\outsideBoxParamTmp}{}
-\renewenvironment{outsideBox}[1]{
-  \renewcommand{\outsideBoxParamTmp}{#1}
+\newcommand{\outsideNewsletterBoxParamTmp}{}
+\renewenvironment{outsideNewsletterBox}[1]{
+  \renewcommand{\outsideNewsletterBoxParamTmp}{#1}
 }{}
-\AddToHook{env/outsideBox/before}{
+\AddToHook{env/outsideNewsletterBox/before}{
   \ifthenelse{\boolean{alreadyCalled}}{
-    \end{fancyBox}
+    \end{newsletterBox}
+    \setboolean{alreadyCalled}{true}
   }{}
 }
-\AddToHook{env/outsideBox/after}{
+\AddToHook{env/outsideNewsletterBox/after}{
   \ifthenelse{\boolean{alreadyCalled}}{
-    \begin{fancyBox}{\outsideBoxParamTmp}
-  }{}
+    \begin{newsletterBox}{\outsideNewsletterBoxParamTmp}
+  }{
+  }
 }
 
+\renewenvironment{stopNewsletterBox}[1]{}{}
+\AddToHook{env/stopNewsletterBox/before}{
+  \ifthenelse{\boolean{alreadyCalled}}{
+    \end{newsletterBox}
+    \setboolean{alreadyCalled}{false}
+  }{}
+}
 
 % Set bigger gap between columns
 \setlength{\columnsep}{1cm}

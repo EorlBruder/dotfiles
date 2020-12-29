@@ -37,6 +37,7 @@ Options:
   --date:               Set the date of the document. This is not necessary, if you've set the date in the source-file.
   --no-automatic-date:  Don't automatically set the current date, if no date is provided in the metadata. 
   --debug-latex:        Prints the resulting latex-file to stdout
+  --verbose:            Show verbose output
   --help|-h:            Show this message
 
 Licensed under AGPL 3.0 by EorlBruder"
@@ -62,6 +63,7 @@ debugLatex=false
 automaticDate=true
 newsletterOption=
 numberSectionsOption=-N
+verboseOption=
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -149,6 +151,9 @@ while [ ! -z "$1" ]; do
       echo "Printing Latex-File"
       debugLatex=true
       ;;
+    --verbose)
+      verboseOption=--verbose
+      ;;
     --help|-h)
       echo $HELP_MESSAGE
       exit 0
@@ -189,6 +194,7 @@ defaultOptions=(-V classoption:$language \
   -H $CONF_DIR/main.tex \
   $newsletterOption \
   -L $CONF_DIR/fences-filter.lua \
+  $verboseOption \
   $filename)
 
 if [ $automaticDate = true ]; then
