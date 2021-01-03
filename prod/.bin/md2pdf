@@ -86,15 +86,19 @@ while [ ! -z "$1" ]; do
       ;;
     --language|-l)
       shift
-      echo "Setting language to $1"
-      language="$1"
-      if [ "$1" = "german" ]; then
+      if [[ "$1" = "german" || "$1" = "deutsch" || "$1" = "de" || "$1" = "DE" ]]; then
+        language="german"
         locale=de_DE.UTF-8
         languageCode=de-DE
-      elif [ "$1" = "english" ]; then
+      elif [[ ("$1" = "english" || "$1" = "en" || "$1" = "EN") ]]; then
+        language="english"
         locale=en_GB.UTF-8
         languageCode=en-GB
+      else 
+        echo "Unknown language $1"
+        exit 1
       fi
+      echo "Setting language to $language"
       ;;
     --theme|-t)
       shift
@@ -195,6 +199,7 @@ defaultOptions=( \
   -H $CONF_DIR/packages.tex \
   -H $CONF_DIR/utils.tex \
   -H $headerTheme \
+  -H $CONF_DIR/localization.tex \
   -H $CONF_DIR/main.tex \
   $newsletterOption \
   -L $CONF_DIR/fences-filter.lua \

@@ -3,7 +3,7 @@
 
 \newcommand{\newsletterTitleText}{
   \ifEmpty{\logopath}{
-    Newsletter
+    \newsletterDefaultTitle 
   }{
     \MyTitle
   }
@@ -13,9 +13,9 @@
   % We can't use \newsletterTitleText, cause it causes problems with xstrings
   \ifEmpty{\MyTitle}{
     \ifEmpty{\logopath}{
-      Newsletter
+      \newsletterDefaultTitle
     }{
-      Newsletter \titleLogo
+      \newsletterDefaultTitle \titleLogo
     }
   }{
     \ifEmpty{\logopath}{
