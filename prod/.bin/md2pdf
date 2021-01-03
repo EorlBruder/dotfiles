@@ -1,10 +1,6 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
-# TODO Add better localization
-#  - Babel doesn't need to be explictly set in the header
-#  - Add extra file with localized strings in commands to be used
-# TODO Add "empty-box"-environment for formatting in newsletter-mode
 # TODO Write completion definition
 # TODO Add option for different themes/templates
 #   - Give the image and the text as parameters
