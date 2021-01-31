@@ -1,5 +1,14 @@
 -- Enable Criticmarkup
 function RawInline(el)
+  return processBlockOrInline(el)
+end
+
+function RawBlock(el)
+  return processBlockOrInline(el)
+end
+
+function processBlockOrInline(el)
+  print(el.text)
   -- Replace HTML-Comments with latex-comments
   if (el.format == "html") and (string.starts(el.text, "<!--")) then
     return pandoc.RawInline("tex", "\\chcomment{" .. string.gsub(string.gsub(el.text, "<!%-%-% ", ""), "%-%->", "") .. "}")

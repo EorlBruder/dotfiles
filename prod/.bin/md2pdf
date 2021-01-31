@@ -1,6 +1,7 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
+# TODO Fix bug with added items in itemizes
 # TODO Write completion definition
 # TODO Add option for different themes/templates
 #   - Give the image and the text as parameters
@@ -216,7 +217,6 @@ defaultOptions=( \
   $newsletterOption \
   -L $CONF_DIR/fences-filter.lua \
   -L $CONF_DIR/criticmarkup.lua \
-  -L $CONF_DIR/include-files.lua \
   $verboseOption \
   $preprocessedFile)
 
@@ -253,17 +253,26 @@ if [ $debugLatex = true ]; then
   outputOption=(--to latex)
 fi
 
+echo "Starting Preprocessing"
+singleFile=/tmp/md2pdf-full.md
+pandoc $filename -o $singleFile -L $CONF_DIR/include-files.lua 
+filename=$singleFile
+
 if [ $diffFile ]; then 
+  echo "Diffing files"
   diffedFile=/tmp/md2pdf-diffed.md
   pandiff $diffFile $filename > $diffedFile 
   filename=$diffedFile
 fi
 
+echo "Evaluating criticmarkup"
 pancritic $filename -m m --critic-template /dev/null -t latex -o $preprocessedFile
 
 if [ $diffFile ]; then 
   rm $diffedFile
 fi
 
+echo "Converting file"
 env LANG=$locale pandoc $defaultOptions $modeOptions -H $CONF_DIR/final-hook.tex $outputOption
 rm $preprocessedFile
+rm $singleFile
