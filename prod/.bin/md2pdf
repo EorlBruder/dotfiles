@@ -2,7 +2,6 @@
 # Licensed under AGPL 3.0 by EorlBruder
 
 # TODO Diff mode
-# TODO Support something like criticmarkup
 # TODO Satzung-style
 # TODO Write completion definition
 # TODO Add option for different themes/templates
@@ -184,6 +183,7 @@ if [ -z $basename ]; then
 fi
 
 headerTheme=$CONF_DIR/$themeName-header.tex
+preprocessedFile=/tmp/md2pdf-preprocessed.md
 
 defaultOptions=( \
   -M lang:$languageCode \
@@ -203,10 +203,10 @@ defaultOptions=( \
   -H $CONF_DIR/main.tex \
   $newsletterOption \
   -L $CONF_DIR/fences-filter.lua \
-  -L $CONF_DIR/comment.lua \
+  -L $CONF_DIR/criticmarkup.lua \
   -L $CONF_DIR/include-files.lua \
   $verboseOption \
-  $filename)
+  $preprocessedFile)
 
 if [ $automaticDate = true ]; then
   defaultOptions+=(-L $CONF_DIR/currentdate-filter.lua)
@@ -240,4 +240,6 @@ if [ $debugLatex = true ]; then
   outputOption=(--to latex)
 fi
 
+pancritic $filename -m m --critic-template /dev/null -t latex -o $preprocessedFile
 env LANG=$locale pandoc $defaultOptions $modeOptions -H $CONF_DIR/final-hook.tex $outputOption
+rm $preprocessedFile
