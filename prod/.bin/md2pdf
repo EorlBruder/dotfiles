@@ -1,6 +1,9 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
+# TODO Diff mode
+# TODO Support something like criticmarkup
+# TODO Satzung-style
 # TODO Write completion definition
 # TODO Add option for different themes/templates
 #   - Give the image and the text as parameters
@@ -199,6 +202,7 @@ defaultOptions=( \
   -H $CONF_DIR/main.tex \
   $newsletterOption \
   -L $CONF_DIR/fences-filter.lua \
+  -L $CONF_DIR/comment.lua \
   $verboseOption \
   $filename)
 
