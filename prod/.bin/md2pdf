@@ -1,7 +1,6 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
-# TODO Diff mode
 # TODO Satzung-style
 # TODO Write completion definition
 # TODO Add option for different themes/templates
