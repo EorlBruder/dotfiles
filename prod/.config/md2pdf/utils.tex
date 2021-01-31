@@ -28,7 +28,7 @@
 % Setup logo-renderer
 \newcommand{\renderLogo}[1]{
   \ifEmpty{\logopath}{}{
-    \includegraphics[height=#1]{\logopath}
+    \includegraphics[height=#1, max width=\linewidth]{\logopath}
   }
 }
 
