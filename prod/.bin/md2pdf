@@ -35,6 +35,7 @@ Options:
   --author:             Set the author of the document. This is not necessary, if you've set the author in the source-file.
   --date:               Set the date of the document. This is not necessary, if you've set the date in the source-file.
   --no-automatic-date:  Don't automatically set the current date, if no date is provided in the metadata. 
+  --diff:               Creates diff of the base file with the old, provided file. Automatically sets document as a draft. 
   --debug-latex:        Prints the resulting latex-file to stdout
   --verbose:            Show verbose output
   --help|-h:            Show this message
@@ -63,6 +64,7 @@ automaticDate=true
 newsletterOption=
 numberSectionsOption=-N
 verboseOption=
+diffFile=
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -128,6 +130,12 @@ while [ ! -z "$1" ]; do
       shift
       echo "Setting date as '$1'"
       dateOption=(-M date:$1)
+      ;;
+    --diff)
+      shift
+      echo "diffing with old file '$1'"
+      diffFile=$1
+      draftOption="draft"
       ;;
     --presentation|-p)
       echo "Generating a presentation"
@@ -240,6 +248,17 @@ if [ $debugLatex = true ]; then
   outputOption=(--to latex)
 fi
 
+if [ $diffFile ]; then 
+  diffedFile=/tmp/md2pdf-diffed.md
+  pandiff $diffFile $filename > $diffedFile 
+  filename=$diffedFile
+fi
+
 pancritic $filename -m m --critic-template /dev/null -t latex -o $preprocessedFile
+
+if [ $diffFile ]; then 
+  rm $diffedFile
+fi
+
 env LANG=$locale pandoc $defaultOptions $modeOptions -H $CONF_DIR/final-hook.tex $outputOption
 rm $preprocessedFile
