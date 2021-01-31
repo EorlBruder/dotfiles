@@ -188,6 +188,7 @@ headerTheme=$CONF_DIR/$themeName-header.tex
 defaultOptions=( \
   -M lang:$languageCode \
   -M csquotes:true \
+  -M include-auto \
   -V classoption:$language \
   -V urlcolor:red \
   $titleOption \
@@ -203,6 +204,7 @@ defaultOptions=( \
   $newsletterOption \
   -L $CONF_DIR/fences-filter.lua \
   -L $CONF_DIR/comment.lua \
+  -L $CONF_DIR/include-files.lua \
   $verboseOption \
   $filename)
 
