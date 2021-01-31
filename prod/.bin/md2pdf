@@ -1,7 +1,6 @@
 #!/bin/zsh
 # Licensed under AGPL 3.0 by EorlBruder
 
-# TODO Satzung-style
 # TODO Write completion definition
 # TODO Add option for different themes/templates
 #   - Give the image and the text as parameters
@@ -34,6 +33,7 @@ Options:
   --author:             Set the author of the document. This is not necessary, if you've set the author in the source-file.
   --date:               Set the date of the document. This is not necessary, if you've set the date in the source-file.
   --no-automatic-date:  Don't automatically set the current date, if no date is provided in the metadata. 
+  --legal:              Add '§' to all section-titles.
   --diff:               Creates diff of the base file with the old, provided file. Automatically sets document as a draft. 
   --debug-latex:        Prints the resulting latex-file to stdout
   --verbose:            Show verbose output
@@ -64,6 +64,7 @@ newsletterOption=
 numberSectionsOption=-N
 verboseOption=
 diffFile=
+legalOption=
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -114,6 +115,10 @@ while [ ! -z "$1" ]; do
     --short|-s)
       echo "Using short layout"
       shortOption=short
+      ;;
+    --legal)
+      echo "Using legal formatting"
+      legalOption=legal
       ;;
     --title)
       shift
@@ -234,6 +239,7 @@ else
   modeOptions=($numberSectionsOption \
     -V secnumdepth:4 \
     -V classoption:$draftOption \
+    -V classoption:$legalOption \
     -V classoption:$columnOption \
     -V classoption:$titlePageOption \
     -V classoption:$shortOption \

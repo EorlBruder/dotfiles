@@ -172,3 +172,7 @@
 \fi
 \makeatother
 
+% Set Paragraph in front of sections if needed
+\ifClassoptionSet{legal}{
+  \renewcommand{\thesection}{\S\arabic{section}}
+}{}
