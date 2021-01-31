@@ -138,7 +138,7 @@ while [ ! -z "$1" ]; do
       ;;
     --diff)
       shift
-      echo "diffing with old file '$1'"
+      echo "Diffing with old file '$1'"
       diffFile=$1
       draftOption="draft"
       ;;
@@ -215,6 +215,7 @@ defaultOptions=( \
   -H $CONF_DIR/localization.tex \
   -H $CONF_DIR/main.tex \
   $newsletterOption \
+  -L $CONF_DIR/include-files.lua \
   -L $CONF_DIR/fences-filter.lua \
   -L $CONF_DIR/criticmarkup.lua \
   $verboseOption \
@@ -253,10 +254,18 @@ if [ $debugLatex = true ]; then
   outputOption=(--to latex)
 fi
 
-echo "Starting Preprocessing"
-singleFile=/tmp/md2pdf-full.md
-pandoc $filename -o $singleFile -L $CONF_DIR/include-files.lua 
-filename=$singleFile
+
+if [ "${#filename[@]}" -gt "1" ]; then
+  echo "Stitching input files together"
+  fullFile=/tmp/md2pdf-full.md
+  rm -f $fullFile
+  touch $fullFile
+  for file in $filename; do
+    cat $file >> $fullFile
+    echo "\n" >> $fullFile
+  done
+  filename=$fullFile
+fi
 
 if [ $diffFile ]; then 
   echo "Diffing files"
@@ -272,7 +281,10 @@ if [ $diffFile ]; then
   rm $diffedFile
 fi
 
+if [ $fullFile ]; then
+  rm $fullFile
+fi
+
 echo "Converting file"
 env LANG=$locale pandoc $defaultOptions $modeOptions -H $CONF_DIR/final-hook.tex $outputOption
 rm $preprocessedFile
-rm $singleFile
