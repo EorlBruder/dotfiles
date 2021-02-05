@@ -18,6 +18,7 @@ The created file will by default be named 'basename'-final.pdf. You can use mult
 
 Options:
   --presentation|-p:    Generates a presentation from the document. Draft, two-columns, title-page, no-header and short options won't do anything aspect-ratio  only works in this mode. 
+  --letter:             Generates a letter from the document. Requires additional variables to be set in the metadata, or provided by an extra file. 
   --aspect-ratio:       Set the aspect-ratio. Default is 169 (for 16:9). Furhter options are in accordance with beamers config: https://pandoc.org/MANUAL.html#variables-for-beamer-slides
   --no-footer:          Generates a document without a footer
   --no-header:          Generates a document without a header
@@ -65,6 +66,7 @@ numberSectionsOption=-N
 verboseOption=
 diffFile=
 legalOption=
+letter=false
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -145,6 +147,11 @@ while [ ! -z "$1" ]; do
       echo "Generating a presentation"
       presentation=true
       ;;
+    --letter)
+      echo "Generating a letter"
+      letter=true
+      tableOfContentsOption=
+      ;;
     --aspect-ratio)
       shift
       echo "Setting aspect ratio as '$1'"
@@ -196,6 +203,7 @@ fi
 
 headerTheme=$CONF_DIR/$themeName-header.tex
 preprocessedFile=/tmp/md2pdf-preprocessed.md
+letterMetadataFile=/tmp/md2pdf-letterMetadata.tex
 
 defaultOptions=( \
   -M lang:$languageCode \
@@ -234,6 +242,13 @@ if [ $presentation = true ]; then
     -V themeoptions:$noFooterOption \
     -H $CONF_DIR/slides.tex)
   outputOption=(-o "$basename-slides.pdf")
+elif [ $letter = true ]; then
+  echo "Converting $filename to PDF, creating $basename-letter.pdf"
+  modeOptions=(-V documentclass:scrlttr2 \
+    -B $CONF_DIR/before-letter.tex \
+    -A $CONF_DIR/after-letter.tex \
+    -H $letterMetadataFile)
+  outputOption=(-o "$basename-letter.pdf")
 else   
   echo "Converting $filename to PDF, creating $basename-$draftOption.pdf"
   modeOptions=($numberSectionsOption \
@@ -276,14 +291,17 @@ fi
 echo "Evaluating criticmarkup"
 pancritic $filename -m m --critic-template /dev/null -t latex -o $preprocessedFile
 
-if [ $diffFile ]; then 
-  rm $diffedFile
-fi
-
-if [ $fullFile ]; then
-  rm $fullFile
+if [ $letter = true ]; then
+  echo "preparing letter metadata"
+  # TODO also input all extra vars, e.g. from theme...
+  pandoc -o $letterMetadataFile --template $CONF_DIR/lettervars-template.tex $preprocessedFile
 fi
 
 echo "Converting file"
 env LANG=$locale pandoc $defaultOptions $modeOptions -H $CONF_DIR/final-hook.tex $outputOption
+
+echo "Cleaning up"
+rm -f $diffedFile
+rm -f $fullFile
+rm -f $letterMetadataFile
 rm $preprocessedFile
