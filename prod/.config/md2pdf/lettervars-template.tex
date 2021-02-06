@@ -1,39 +1,105 @@
+% Require needed packages 
+\RequirePackage{marvosym} 
+
+% Init custom komavars
 \newkomavar{to}  
 \newkomavar{opening}  
 \newkomavar{closing} 
 \newkomavar{ps} 
 \newkomavar{encl} 
 
-% Default to disabled fields, can be overridden by setting pandoc variables or .lco files
-\KOMAoptions{fromemail=false}
-\KOMAoptions{fromfax=false}    
-\KOMAoptions{fromlogo=false}  
-\KOMAoptions{frommobilephone=false}
-\KOMAoptions{fromphone=false}
-\KOMAoptions{fromurl=false}
-\KOMAoptions{fromalign=right} 
-
+% Letter Options
 \LoadLetterOption{DIN}
+\KOMAoptions{parskip=half}
 
+% Add all letteroptions
 $for(letteroption)$
-\LoadLetterOption{$letteroption$}
+  \LoadLetterOption{$letteroption$}
 $endfor$
 
-$if(to)$\setkomavar{to}{$to$}$endif$
+% Set fonts
+\setkomafont{subject}{\large\bfseries\themefont}
+\setkomafont{backaddress}{\mdseries}
+
+% Set separators
+%\setkomavar{backaddressseparator}{ - }
+\setkomavar{enclseparator}{: }
+
+% Set header
+\firsthead{
+  \hspace*{\fill}\usekomavar{fromlogo} \\
+  \hspace*{\fill}\themefont{\small\logotext\hspace*{0.5cm}}
+}
+\KOMAoptions{firsthead=on}
+
+% Set footer
+\firstfoot{
+  \footnotesize
+  \rule[3pt]{\textwidth}{.4pt} \\
+  \begin{tabular}[t]{l@{}} 
+    \usekomavar{fromaddress}\\
+  \end{tabular}
+  \hfill
+  \begin{tabular}[t]{l@{}}
+    \Ifkomavarempty{fromphone}{}{
+      \usekomavar[\Telefon~]{fromphone}\\
+    }
+    \Ifkomavarempty{frommobilephone}{}{
+      \usekomavar[\Mobiletelefone~]{frommobilephone}\\
+    }
+    \Ifkomavarempty{fromfax}{}{
+      \usekomavar[\fax~]{fromfax}\\
+    }
+    \Ifkomavarempty{fromemail}{}{
+      \usekomavar[\Letter~]{fromemail}\\
+    }
+    \Ifkomavarempty{fromurl}{}{
+      \usekomavar[\Mundus~]{fromurl}\\
+    }
+  \end{tabular}
+  \ifkomavarempty{frombank}{}{
+    \hfill
+    \begin{tabular}[t]{l@{}}
+      \usekomavar{frombank}
+    \end{tabular}
+  }
+}
+\KOMAoptions{firstfoot=on}
+
+% Style signature
+\renewcommand*{\raggedsignature}{\raggedright}
+
+% Set Logo
+\ifEmpty{\logopath}{}{
+  \setkomavar{fromlogo}{
+    \renderLogo{2.24cm}
+  }
+}
+
+% Set variables from metadata into komavars
+$if(to)$
+  \setkomavar{to}{$to$}
+$else$
+  \setkomavar{to}{-}
+$endif$
 $if(addresseeimage)$\setkomavar{addresseeimage}{$addresseeimage$}$endif$
-$if(backaddress)$\setkomavar{backaddress}{$backaddress$}\KOMAoptions{backaddress=true}$endif$
 $if(fromalign)$\KOMAoptions{fromalign=$fromalign$}$endif$
 $if(customer)$\setkomavar{customer}{$customer$}$endif$
 $if(date)$\setkomavar{date}{$date$}$endif$
 $if(fromaddress)$\setkomavar{fromaddress}{$fromaddress$}$endif$
 $if(frombank)$\setkomavar{frombank}{$frombank$}$endif$
-$if(fromemail)$\setkomavar{fromemail}{$fromemail$}\KOMAoptions{fromemail=true}$endif$
-$if(fromfax)$\setkomavar{fromfax}{$fromfax$}\KOMAoptions{fromfax=true}$endif$
-$if(fromlogo)$\setkomavar{fromlogo}{$fromlogo$}\KOMAoptions{fromlogo=true}$endif$
-$if(frommobilephone)$\setkomavar{frommobilephone}{$frommobilephone$}\KOMAoptions{frommobilephone=true}$endif$
-$if(fromname)$\setkomavar{fromname}{$fromname$}$endif$
-$if(fromphone)$\setkomavar{fromphone}{$fromphone$}\KOMAoptions{fromphone=true}$endif$
-$if(fromurl)$\setkomavar{fromurl}{$fromurl$}\KOMAoptions{fromurl=true}$endif$
+$if(fromemail)$\setkomavar{fromemail}{$fromemail$}$endif$
+$if(fromfax)$\setkomavar{fromfax}{$fromfax$}$endif$
+$if(frommobilephone)$\setkomavar{frommobilephone}{$frommobilephone$}$endif$
+$if(author)$
+  \setkomavar{fromname}{$author$}
+  \newcommand{\MyAuthor}{$author$}
+$elseif(fromname)$
+  \setkomavar{fromname}{$fromname$}
+  \newcommand{\MyAuthor}{$fromname$}
+$endif$
+$if(fromphone)$\setkomavar{fromphone}{$fromphone$}$endif$
+$if(fromurl)$\setkomavar{fromurl}{$fromurl$}$endif$
 $if(fromzipcode)$\setkomavar{fromzipcode}{$fromzipcode$}$endif$
 $if(invoice)$\setkomavar{invoice}{$invoice$}$endif$
 $if(location)$\setkomavar{location}{$location$}$endif$
@@ -44,15 +110,42 @@ $if(PPdatamatrix)$\setkomavar{PPdatamatrix}{$PPdatamatrix$}$endif$
 $if(PPcode)$\setkomavar{PPcode}{$PPcode$}$endif$
 $if(signature)$\setkomavar{signature}{$signature$}$endif$
 $if(specialmail)$\setkomavar{specialmail}{$specialmail$}$endif$
-$if(subject)$\setkomavar{subject}{$subject$}$endif$
-$if(title)$\setkomavar{title}{$title$}$endif$
-$if(toaddress)$\setkomavar{toaddress}{$toaddress$}\KOMAoptions{toaddress=true}$endif$
-$if(toname)$\setkomavar{toname}{$toname$}\KOMAoptions{toname=true}$endif$
+$if(title)$
+  \setkomavar{subject}{$title$}
+  \newcommand{\MyTitle}{$title$}
+$elseif(subject)$
+  \setkomavar{subject}{$subject$}
+  \newcommand{\MyTitle}{$subject$}
+$endif$
+$if(toaddress)$\setkomavar{toaddress}{$toaddress$}$endif$
+$if(toname)$\setkomavar{toname}{$toname$}$endif$
 $if(yourmail)$\setkomavar{yourmail}{$yourmail$}$endif$
 $if(yourref)$\setkomavar{yourref}{$yourref$}$endif$
-$if(opening)$\setkomavar{opening}{$opening$}$endif$
-$if(closing)$\setkomavar{closing}{$closing$}$endif$
 $if(firstfoot)$\setkomavar{firstfoot}{$firstfoot$}$endif$
 $if(ps)$\setkomavar{ps}{$ps$}$endif$
 $if(encl)$\setkomavar{encl}{$encl$}$endif$
+$if(backaddress)$
+  \setkomavar{backaddress}{$backaddress$}
+  \KOMAoptions{backaddress=true}
+$else$
+  \Ifkomavarempty{fromaddress}{}{
+    \setkomavar{backaddress}{\usekomavar{fromaddress}}
+    \KOMAoptions{backaddress=true}
+  }
+$endif$
+$if(opening)$
+  \setkomavar{opening}{$opening$}
+$else$
+  \newcaptionname{german}{\defaultOpening}{Sehr geehrte Damen und Herren}
+  \newcaptionname{english}{\defaultOpening}{To whom it may concern}
+  \setkomavar{opening}{\defaultOpening}
+$endif$
+$if(closing)$
+  \setkomavar{closing}{$closing$}
+$else$
+  \newcaptionname{german}{\defaultClosing}{Mit freundlichen Grüßen}
+  \newcaptionname{english}{\defaultClosing}{Sincerly}
+  \setkomavar{closing}{\defaultClosing}
+$endif$
 
+\renewcommand{\maketitle}{}
