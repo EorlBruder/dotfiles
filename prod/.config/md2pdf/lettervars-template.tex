@@ -20,9 +20,20 @@ $endfor$
 % Set fonts
 \setkomafont{subject}{\large\bfseries\themefont}
 \setkomafont{backaddress}{\mdseries}
+\setkomafont{addressee}{\small}
+
+% Set lengths
+\setplength{sigbeforevskip}{17mm} 
+\setplength{firstheadvpos}{17mm} 
+\setplength{firstfootvpos}{275mm} 
+\setplength{firstheadwidth}{\paperwidth}
+\setplength{locwidth}{70mm}  
+\setplength{locvpos}{60mm}    
+\addtoplength[-2]{firstheadwidth}{\useplength{toaddrhpos}}
+\setplength{foldmarkhpos}{6.5mm}
+
 
 % Set separators
-%\setkomavar{backaddressseparator}{ - }
 \setkomavar{enclseparator}{: }
 
 % Set header
@@ -79,18 +90,30 @@ $endfor$
 % Set variables from metadata into komavars
 $if(to)$
   \setkomavar{to}{$to$}
-$else$
-  \setkomavar{to}{-}
 $endif$
 $if(addressimage)$
-  \setkomavar{PPdatamatrix}{\includegraphics{$addressimage$}}
-  \setkomavar{addresseeimage}{\raggedleft\usekomavar{PPdatamatrix}}
-  \KOMAoptions{addrfield=backgroundimage}
+  \setkomavar{PPdatamatrix}{\includegraphics[angle=-90]{$addressimage$}}
+  \setkomavar{addresseeimage}{
+    \Ifkomavarempty{backaddress}{}{
+      \underline{
+        {\def\\{\usekomavar{backaddressseparator}}%
+        \scriptsize\usekomavar{fromaddress}}
+      }
+    }
+    \begin{raggedleft}
+      \usekomavar{PPdatamatrix}\\
+    \end{raggedleft}
+    \raggedright\usekomafont{addressee}\usekomavar{to}
+  }
+  \KOMAoptions{addrfield=image}
+  \setplength{toaddrindent}{-2mm}
+  \setplength{toaddrwidth}{100mm}
 $endif$
 $if(addressimage-full)$
   \setkomavar{PPdatamatrix}{\includegraphics[angle=-90]{$addressimage-full$}}
   \setkomavar{addresseeimage}{\raggedleft\usekomavar{PPdatamatrix}}
   \KOMAoptions{addrfield=image}
+  \addtoplength{toaddrvpos}{-\useplength{backaddrheight}-4mm}
 $endif$
 $if(fromalign)$\KOMAoptions{fromalign=$fromalign$}$endif$
 $if(customer)$\setkomavar{customer}{$customer$}$endif$

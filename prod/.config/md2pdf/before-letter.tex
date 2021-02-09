@@ -1,24 +1,7 @@
-\makeatletter
-\@setplength{sigbeforevskip}{17mm} % Abstand der Signatur von dem closing
-\@setplength{firstheadvpos}{17mm} % Abstand des Absenderfeldes vom Top
-\@setplength{firstfootvpos}{275mm} % Abstand des Footers von oben
-\@setplength{firstheadwidth}{\paperwidth}
-\@setplength{locwidth}{70mm}   % Breite des Locationfeldes
-\@setplength{locvpos}{60mm}    % Abstand des Locationfeldes von oben
-\ifdim \useplength{toaddrhpos}>\z@
-  \@addtoplength[-2]{firstheadwidth}{\useplength{toaddrhpos}}
-\else
-  \@addtoplength[2]{firstheadwidth}{\useplength{toaddrhpos}}
-\fi
-\@setplength{foldmarkhpos}{6.5mm}
-\makeatother
-
-
 \begin{letter}{
-  \usekomavar{to}
+  \Ifkomavarempty{to}{-}{\usekomavar{to}}
 }
 
 
 \opening{\usekomavar{opening},}
-
 
