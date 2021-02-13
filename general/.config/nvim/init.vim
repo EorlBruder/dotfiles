@@ -12,7 +12,7 @@ nnoremap <C-Space> <C-W>
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
   silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.local/share/nvim/plugged')
@@ -34,6 +34,12 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'aklt/plantuml-syntax'
 " Undo Tree
 Plug 'simnalamburt/vim-mundo'
+" Vimwiki
+Plug 'vimwiki/vimwiki'
+" Vim-Airline
+Plug 'vim-airline/vim-airline'
+" Markdown Folding
+Plug 'masukomi/vim-markdown-folding'
 call plug#end()
 " use wal-colorscheme 
 colorscheme wal
@@ -49,3 +55,17 @@ let g:syntastic_check_on_wq = 0
 set undofile
 set undodir=~/.vim/undo
 nnoremap <F5> :MundoToggle<CR>
+" Configure vimwiki
+let g:vimwiki_list = [{'path': '~/sync/permanent/wiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_global_ext = 0
+let g:vimwiki_folding = 'expr'
+" Configure airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" Configure Markdown folding
+set nocompatible
+if has("autocmd")
+  filetype plugin indent on
+endif
+au FileType vimwiki set foldexpr=StackedMarkdownFolds()
