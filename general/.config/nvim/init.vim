@@ -16,8 +16,12 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.local/share/nvim/plugged')
+""" Neovim Appearance
 " wal plugin
 Plug 'dylanaraps/wal.vim'
+" Vim-Airline
+Plug 'vim-airline/vim-airline'
+""" General Utilities
 " fzf plugin
 Plug '~/.zplug/repos/junegunn/fzf'
 " Completion Engine
@@ -30,19 +34,30 @@ Plug 'tpope/vim-commentary'
 Plug 'scrooloose/syntastic'
 " Multiple Cursors
 Plug 'terryma/vim-multiple-cursors'
-" Plantuml syntax
-Plug 'aklt/plantuml-syntax'
 " Undo Tree
 Plug 'simnalamburt/vim-mundo'
+" Goyo - Distraction free writing
+Plug 'junegunn/goyo.vim'
+" Limelight - higlight only current line
+Plug 'junegunn/limelight.vim'
+" Easily align
+Plug 'junegunn/vim-easy-align'
+""" Markdown editing
+" Vim_Pandoc
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 " Vimwiki
 Plug 'vimwiki/vimwiki'
-" Vim-Airline
-Plug 'vim-airline/vim-airline'
-" Markdown Folding
+" Vim Markdown-Folding
 Plug 'masukomi/vim-markdown-folding'
+""" Misc syntaxes
+" Plantuml syntax
+Plug 'aklt/plantuml-syntax'
 call plug#end()
+
 " use wal-colorscheme 
 colorscheme wal
+
 " Configure Syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -51,21 +66,39 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
 " Configure Mundo
 set undofile
 set undodir=~/.vim/undo
 nnoremap <F5> :MundoToggle<CR>
+
 " Configure vimwiki
 let g:vimwiki_list = [{'path': '~/sync/permanent/wiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_global_ext = 0
 let g:vimwiki_folding = 'expr'
+
 " Configure airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
+
 " Configure Markdown folding
 set nocompatible
 if has("autocmd")
   filetype plugin indent on
 endif
-au FileType vimwiki set foldexpr=StackedMarkdownFolds()
+
+" Configure Goyo with Limelight
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+nnoremap <silent> <F7> :Goyo<cr>
+inoremap <silent> <F7> <C-O>:Goyo<cr>
+
+" Configure default spell checker
+set nospell spelllang=de_20
+nnoremap <silent> <F6> :set invspell<cr>
+inoremap <silent> <F6> <C-O>:set invspell<cr>
+
+" Configure EasyAlign
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
