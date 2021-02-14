@@ -100,6 +100,7 @@ inoremap <silent> <F8> <C-O>:Goyo<cr>
 
 " Configure default spell checker
 set nospell spelllang=de_20
+setlocal spellfile=$HOME/.config/nvim/spell/de.utf-8.add,$HOME/.config/nvim/spell/common.utf-8.add
 function! LanguageToggle() abort
   if &l:spelllang == "de_20"
     " Switch to English
