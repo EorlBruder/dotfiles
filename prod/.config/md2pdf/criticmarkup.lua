@@ -18,7 +18,7 @@ function processBlockOrInline(el, block)
   end
   -- Replace preprocessed changes-tags with prefixed changes-tags
   if is_tex(el.format) and (string.starts(el.text,"\\added") or string.starts(el.text,"\\deleted") or string.starts(el.text, "\\replaced") or string.starts(el.text, "\\highlight") or string.starts(el.text, "\\comment")) then
-    newText = string.gsub(el.text, "\\", "\\ch")
+    newText = string.gsub(el.text, "\\", "\\ch", 1)
     if block then
       return pandoc.RawBlock("tex", newText)
     end
