@@ -46,6 +46,8 @@ Plug 'junegunn/vim-easy-align'
 " Vim_Pandoc
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-criticmarkup'
+Plug 'vim-pandoc/vim-markdownfootnotes'
 " Vimwiki
 Plug 'vimwiki/vimwiki'
 " Vim Markdown-Folding
