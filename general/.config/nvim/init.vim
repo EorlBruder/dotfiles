@@ -21,6 +21,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'dylanaraps/wal.vim'
 " Vim-Airline
 Plug 'vim-airline/vim-airline'
+" Relative numbers (auto-toggle)
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
 """ General Utilities
 " fzf plugin
 Plug '~/.zplug/repos/junegunn/fzf'
@@ -93,14 +95,48 @@ endif
 " Configure Goyo with Limelight
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
-nnoremap <silent> <F7> :Goyo<cr>
-inoremap <silent> <F7> <C-O>:Goyo<cr>
+nnoremap <silent> <F8> :Goyo<cr>
+inoremap <silent> <F8> <C-O>:Goyo<cr>
 
 " Configure default spell checker
 set nospell spelllang=de_20
+function! LanguageToggle() abort
+  if &l:spelllang == "de_20"
+    " Switch to English
+    setlocal spelllang=en_gb
+    echom "Switching to English"
+    setlocal spellfile=$HOME/.config/nvim/spell/en.utf-8.add,$HOME/.config/nvim/spell/common.utf-8.add
+  elseif &l:spelllang == "en_gb"
+    " Switch to Portuguese
+    setlocal spelllang=pt_pt
+    echom "Switching to Portuguese"
+    setlocal spellfile=$HOME/.config/nvim/spell/pt.utf-8.add,$HOME/.config/nvim/spell/common.utf-8.add
+  else
+    " Switch to German
+    setlocal spelllang=de_20
+    setlocal spellfile=$HOME/.config/nvim/spell/de.utf-8.add,$HOME/.config/nvim/spell/common.utf-8.add
+    echom "Switching to German"
+  endif
+endfunction
+" Toggle whether spell-checking is used or not 
 nnoremap <silent> <F6> :set invspell<cr>
 inoremap <silent> <F6> <C-O>:set invspell<cr>
+" Toggle the language
+command! LanguageToggle call LanguageToggle()
+nnoremap <F7> :LanguageToggle<cr>
+inoremap <F7> <C-O>:LanguageToggle<cr>
+" Add word to both spellfiles
+nnoremap <leader>zg zg2zg
 
 " Configure EasyAlign
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+" Navigate display lines with arrow keys
+nnoremap <buffer> <silent> <Down> gj
+nnoremap <buffer> <silent> <Up> gk
+inoremap <buffer> <silent> <Down> <C-o>gj
+inoremap <buffer> <silent> <Up> <C-o>gk
+
+" Set relative numbers
+set number relativenumber
