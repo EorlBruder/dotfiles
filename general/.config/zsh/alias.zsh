@@ -78,4 +78,6 @@ function gitall() {
     gps
 }
 
+alias vimwiki='vim -c VimwikiIndex'
+
 source ~/.config/zsh/local/alias-*.zsh
