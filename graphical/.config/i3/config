@@ -118,6 +118,7 @@ bindsym $mod+Shift+v exec rofi -modi 'clipboard:greenclip print' -show clipboard
 
 # Screenshot
 bindsym --release Print exec scrot '%Y-%m-%d-%R_$wx$h_scrot.png' -s -e 'mv $f ~/sync/mess/current'
+bindsym --release Shift+Print exec scrot -s -e 'xclip -selection clipboard -t image/png -i $f'
 
 # focus the child container
 #bindsym $mod+d focus child
