@@ -134,10 +134,10 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " Navigate display lines with arrow keys
-nnoremap <buffer> <silent> <Down> gj
-nnoremap <buffer> <silent> <Up> gk
-inoremap <buffer> <silent> <Down> <C-o>gj
-inoremap <buffer> <silent> <Up> <C-o>gk
+autocmd BufEnter nnoremap <buffer> <silent> <Down> gj
+autocmd BufEnter nnoremap <buffer> <silent> <Up> gk
+autocmd BufEnter inoremap <buffer> <silent> <Down> <C-o>gj
+autocmd BufEnter inoremap <buffer> <silent> <Up> <C-o>gk
 
 " Set relative numbers
 set number relativenumber
