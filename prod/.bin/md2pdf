@@ -37,6 +37,7 @@ Options:
   --date:               Set the date of the document. This is not necessary, if you've set the date in the source-file.
   --no-automatic-date:  Don't automatically set the current date, if no date is provided in the metadata. 
   --legal:              Add '§' to all section-titles.
+  --print:              Generates the document to be printed. 
   --diff:               Creates diff of the base file with the old, provided file. Automatically sets document as a draft. 
   --debug-latex:        Prints the resulting latex-file to stdout
   --verbose:            Show verbose output
@@ -72,6 +73,7 @@ letter=false
 letterTo=
 letterFrom=
 metadataOption= 
+printOption=
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -151,6 +153,10 @@ while [ ! -z "$1" ]; do
       shift
       echo "Setting date as '$1'"
       dateOption=(-M date:$1)
+      ;;
+    --print)
+      echo "Generating document to be printed"
+      printOption=(-V links-as-notes=true)
       ;;
     --diff)
       shift
@@ -240,6 +246,7 @@ defaultOptions=( \
   -L $CONF_DIR/include-files.lua \
   -L $CONF_DIR/fences-filter.lua \
   -L $CONF_DIR/criticmarkup.lua \
+  $printOption \
   $verboseOption \
   $preprocessedFile)
 
