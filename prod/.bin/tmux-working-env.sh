@@ -8,8 +8,7 @@ if [ $? != 0 ]
  then
     tmux new-session -s $SESSIONNAME -n script -d
     
-    zsh ~/.bin/tmux-daily-window.sh
-    zsh ~/.bin/tmux-weekly-window.sh
+    zsh ~/.bin/tmux-main-window.sh
     zsh ~/.bin/tmux-work-window.sh 
 
     tmux select-window -t 1
