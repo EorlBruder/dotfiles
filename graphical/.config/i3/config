@@ -230,7 +230,6 @@ client.background       $bg
 exec wal --theme solarized -l -n
 exec_always --no-startup-id ~/.bin/launch-polybar.sh
 exec --no-startup-id feh --bg-scale ~/sync/permanent/pictures/wallpaper.jpg
-exec_always --no-startup-id "killall -q picom; picom --config ~/.config/picom.conf"
 exec --no-startup-id redshift-gtk
 exec --no-startup-id ~/.bin/init-dunst.sh
 exec --no-startup-id dunst
