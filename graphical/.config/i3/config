@@ -117,8 +117,8 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+Shift+v exec rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}' 
 
 # Screenshot
-bindsym --release Print exec scrot '%Y-%m-%d-%R_$wx$h_scrot.png' -s -e 'mv $f ~/sync/mess/current'
-bindsym --release Shift+Print exec scrot -s -e 'xclip -selection clipboard -t image/png -i $f'
+bindsym --release Print exec scrot -s -e 'xclip -selection clipboard -t image/png -i $f && rm $f'
+bindsym --release Shift+Print exec peek
 
 # focus the child container
 #bindsym $mod+d focus child
