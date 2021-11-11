@@ -236,6 +236,7 @@ exec --no-startup-id dunst
 exec setxkbmap -model pc105 de,pt,ru -option grp:rctrl_rshift_toggle 
 exec nextcloud --confdir ~/.config/Nextcloud
 exec --no-startup-id greenclip daemon
+exec picom
 
 # Restore environment
 exec ~/.bin/i3-startup.sh
