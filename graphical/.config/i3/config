@@ -191,7 +191,7 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 # lock screen
-bindsym $mod+space exec i3lock --ignore-empty-password --clock --date-str="%d-%m-%Y" --time-str="%H:%M" --keylayout 0 
+bindsym $mod+space exec ~/.bin/i3-lock.sh 
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -238,6 +238,7 @@ exec setxkbmap -model pc105 de,pt,ru -option grp:rctrl_rshift_toggle
 exec nextcloud --confdir ~/.config/Nextcloud
 exec --no-startup-id greenclip daemon
 exec picom
+exec xss-lock -- ~/.bin/i3-lock.sh
 
 # Restore environment
 exec ~/.bin/i3-startup.sh
