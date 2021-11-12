@@ -19,6 +19,26 @@ font pango:Roboto 10
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
+# Colors
+# Set colors from Xresources
+# Change 'color7' and 'color2' to whatever colors you want i3 to use 
+# from the generated scheme.
+# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
+# it fails to get colors from Xresources.
+set_from_resource $fg i3wm.foreground #f0f0f0
+set_from_resource $fg-alt i3wm.color8 #8f9695 
+set_from_resource $bg i3wm.background #f0f0f0
+set_from_resource $bg-alt i3wm.color2 #577B84
+
+# class                 border  backgr. text indicator child_border
+client.focused          $bg-alt $bg-alt $fg  $bg-alt   $bg-alt
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
+
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -171,7 +191,7 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 # lock screen
-bindsym $mod+space exec i3lock -tei ~/sync/permanent/pictures/wallpaper.png
+bindsym $mod+space exec i3lock --ignore-empty-password --clock --date-str="%d-%m-%Y" --time-str="%H:%M" --keylayout 0 
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -205,25 +225,6 @@ gaps inner 5
 gaps outer 0
 gaps top 0 
 
-# Colors
-# Set colors from Xresources
-# Change 'color7' and 'color2' to whatever colors you want i3 to use 
-# from the generated scheme.
-# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
-# it fails to get colors from Xresources.
-set_from_resource $fg i3wm.foreground #f0f0f0
-set_from_resource $fg-alt i3wm.color8 #8f9695 
-set_from_resource $bg i3wm.background #f0f0f0
-set_from_resource $bg-alt i3wm.color2 #577B84
-
-# class                 border  backgr. text indicator child_border
-client.focused          $bg-alt $bg-alt $fg  $bg-alt   $bg-alt
-client.focused_inactive $bg     $bg     $fg  $bg       $bg
-client.unfocused        $bg     $bg     $fg  $bg       $bg
-client.urgent           $bg     $bg     $fg  $bg       $bg
-client.placeholder      $bg     $bg     $fg  $bg       $bg
-
-client.background       $bg
 
 # Startup
 # WM
