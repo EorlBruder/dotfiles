@@ -1,0 +1,28 @@
+{{
+    "settingDefaults": {{
+        "custom_themes": [
+          {{
+              "name": "wal",
+              "is_dark": false,
+              "colors": {{
+                  "accent-color": "{color1}",
+                  "primary-color": "{foreground}",
+                  "warning-color": "{color10}",
+                  "sidebar-color": "{background}",
+                  "roomlist-background-color": "{background}",
+                  "roomlist-text-color": "{foreground}",
+                  "roomlist-text-secondary-color": "{color3}", 
+                  "roomlist-highlights-color": "{color1}",
+                  "timeline-background-color": "{background}",
+                  "timeline-text-color": "{foreground}",
+                  "secondary-content": "{foreground}",
+                  "tertiary-content": "{foreground}",
+                  "timeline-text-secondary-color": "{color3}",
+                  "timeline-highlights-color": "{color1}", 
+                  "reaction-row-button-selected-bg-color": "{color1}"
+              }}
+          }}
+        ]
+    }},
+    "showLabsSettings": true
+}}
