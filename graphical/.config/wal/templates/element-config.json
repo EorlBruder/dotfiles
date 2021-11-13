@@ -5,20 +5,20 @@
               "name": "wal",
               "is_dark": false,
               "colors": {{
-                  "accent-color": "{color1}",
+                  "accent-color": "{color2}",
                   "primary-color": "{foreground}",
-                  "warning-color": "{color10}",
+                  "warning-color": "{color1}",
                   "sidebar-color": "{background}",
                   "roomlist-background-color": "{background}",
                   "roomlist-text-color": "{foreground}",
                   "roomlist-text-secondary-color": "{color3}", 
-                  "roomlist-highlights-color": "{color1}",
+                  "roomlist-highlights-color": "{color2}",
                   "timeline-background-color": "{background}",
                   "timeline-text-color": "{foreground}",
                   "secondary-content": "{foreground}",
                   "tertiary-content": "{foreground}",
                   "timeline-text-secondary-color": "{color3}",
-                  "timeline-highlights-color": "{color1}", 
+                  "timeline-highlights-color": "{color2}", 
                   "reaction-row-button-selected-bg-color": "{color1}"
               }}
           }}
