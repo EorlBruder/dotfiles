@@ -1,5 +1,7 @@
 [include]
   path = ~/.gitconfig-private
+[includeIf "gitdir:~/repositories_work/"]
+  path = ~/.gitconfig-work 
 [push]
   default = current
 [color]
