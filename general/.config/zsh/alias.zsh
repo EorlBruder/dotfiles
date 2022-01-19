@@ -42,7 +42,7 @@ alias lt='ll -rt'                   # sort by date
 alias lm='la | more'
 
 alias packer='PKGEXT=.tar SRCEXT=.src packer-aur'
-alias makepkg='PKGEXT=.tar SRCEXT=.src makepkg'
+alias makepkg='PKGEXT=.pkg.tar SRCEXT=.src.tar makepkg'
 
 alias fzt='rg --no-heading . | fzf --delimiter=: --nth=2..'
 
