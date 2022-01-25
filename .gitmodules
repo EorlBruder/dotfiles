@@ -1,3 +1,3 @@
 [submodule "private"]
 	path = private
-	url = git@git.eorlbruder.de:EorlBruder/dotfiles-private.git
+	url = git@git.chaoslama.org:EorlBruder/dotfiles-private.git
